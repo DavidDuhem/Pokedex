@@ -1,0 +1,14 @@
+# Dépendances
+**/node_modules
+**/npm-debug.log*
+
+# Builds et caches
+**/dist
+**/.svelte-kit
+**/build
+**/.cache
+
+# Divers
+**/.git
+**/.env
+**/.DS_Store

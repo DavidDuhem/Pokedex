@@ -1,6 +1,16 @@
 import { sveltekit } from "@sveltejs/kit/vite";
 import { defineConfig } from "vite";
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-	plugins: [sveltekit()],
+	plugins: [tailwindcss(), sveltekit()],
+	server: {
+		host: true,
+		watch: {
+			usePolling: true
+		},
+		hmr: {
+			clientPort: 3004
+		}
+	}
 });
