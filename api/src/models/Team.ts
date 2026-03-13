@@ -11,13 +11,10 @@ interface TeamAttributes {
 interface TeamCreationAttributes extends Optional<TeamAttributes, 'id'> {}
 
 export class Team extends Model<TeamAttributes, TeamCreationAttributes> implements TeamAttributes {
-	public id!: number;
-	public name!: string;
-	public description?: string;
-	public profile_id!: number;
-
-	public readonly createdAt!: Date;
-	public readonly updatedAt!: Date;
+	declare id: number;
+	declare name: string;
+	declare description: string;
+	declare profile_id: number;
 }
 
 Team.init(
@@ -42,6 +39,7 @@ Team.init(
 	},
 	{
 		sequelize,
-		tableName: 'team'
+		tableName: 'team',
+		timestamps: true
 	}
 );

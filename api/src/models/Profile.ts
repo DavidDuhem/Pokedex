@@ -13,12 +13,9 @@ export class Profile
 	extends Model<ProfileAttributes, ProfileCreationAttributes>
 	implements ProfileAttributes
 {
-	public id!: number;
-	public username!: string;
-	public auth_id!: number;
-
-	public readonly createdAt!: Date;
-	public readonly updatedAt!: Date;
+	declare id: number;
+	declare username: string;
+	declare auth_id: number;
 }
 
 Profile.init(
@@ -36,11 +33,11 @@ Profile.init(
 		auth_id: {
 			type: DataTypes.INTEGER,
 			allowNull: false
-			// La référence sera gérée par les associations dans index.ts
 		}
 	},
 	{
 		sequelize,
-		tableName: 'profile'
+		tableName: 'profile',
+		timestamps: true
 	}
 );

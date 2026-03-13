@@ -7,11 +7,8 @@ interface VoteAttributes {
 }
 
 export class Vote extends Model<VoteAttributes> implements VoteAttributes {
-	public profile_id!: number;
-	public pokemon_id!: number;
-
-	public readonly createdAt!: Date;
-	public readonly updatedAt!: Date;
+	declare profile_id: number;
+	declare pokemon_id: number;
 }
 
 Vote.init(
@@ -28,6 +25,7 @@ Vote.init(
 	{
 		sequelize,
 		tableName: 'vote',
+		timestamps: true,
 		indexes: [
 			{
 				unique: true,

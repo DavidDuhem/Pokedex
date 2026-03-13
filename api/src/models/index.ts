@@ -31,6 +31,30 @@ Team.belongsToMany(Pokemon, {
 	foreignKey: 'team_id'
 });
 
+// Relation Many-To-Many : Pokemon <-> Profile
+Pokemon.belongsToMany(Profile, {
+	through: Vote,
+	as: 'voters',
+	foreignKey: 'pokemon_id',
+	otherKey: 'profile_id'
+});
+
+Profile.belongsToMany(Pokemon, {
+	through: Vote,
+	as: 'votedPokemons',
+	foreignKey: 'profile_id',
+	otherKey: 'pokemon_id'
+});
+
+PokemonTeam.belongsTo(Pokemon, {
+	foreignKey: 'pokemon_id',
+	as: 'pokemon'
+});
+
+// Relation One-To-Many : Auth <-> Profile
+Auth.hasOne(Profile, { foreignKey: 'auth_id' });
+Profile.belongsTo(Auth, { foreignKey: 'auth_id' });
+
 // Relation One-To-Many : Profile <-> Team
 Profile.hasMany(Team, { foreignKey: 'profile_id' });
 Team.belongsTo(Profile, { foreignKey: 'profile_id' });

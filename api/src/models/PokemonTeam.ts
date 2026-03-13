@@ -13,9 +13,9 @@ export class PokemonTeam
 	extends Model<PokemonTeamAttributes, PokemonTeamCreationAttributes>
 	implements PokemonTeamAttributes
 {
-	public id!: number;
-	public pokemon_id!: number;
-	public team_id!: number;
+	declare id: number;
+	declare pokemon_id: number;
+	declare team_id: number;
 }
 
 PokemonTeam.init(

@@ -10,12 +10,9 @@ interface AuthAttributes {
 interface AuthCreationAttributes extends Optional<AuthAttributes, 'id'> {}
 
 export class Auth extends Model<AuthAttributes, AuthCreationAttributes> implements AuthAttributes {
-	public id!: number;
-	public email!: string;
-	public password!: string;
-
-	public readonly createdAt!: Date;
-	public readonly updatedAt!: Date;
+	declare id: number;
+	declare email: string;
+	declare password: string;
 }
 
 Auth.init(
@@ -40,6 +37,7 @@ Auth.init(
 	},
 	{
 		sequelize,
-		tableName: 'auth'
+		tableName: 'auth',
+		timestamps: true
 	}
 );

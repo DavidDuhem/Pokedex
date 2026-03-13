@@ -13,12 +13,9 @@ export class PokeType
 	extends Model<PokeTypeAttributes, PokeTypeCreationAttributes>
 	implements PokeTypeAttributes
 {
-	public id!: number;
-	public name!: string;
-	public color!: string;
-
-	public readonly createdAt!: Date;
-	public readonly updatedAt!: Date;
+	declare id: number;
+	declare name: string;
+	declare color: string;
 }
 
 PokeType.init(
@@ -40,6 +37,7 @@ PokeType.init(
 	},
 	{
 		sequelize,
-		tableName: 'type'
+		tableName: 'type',
+		timestamps: true
 	}
 );

@@ -1,5 +1,13 @@
-import { DataTypes, Model, Optional } from 'sequelize';
+import {
+	DataTypes,
+	BelongsToManyAddAssociationsMixin,
+	BelongsToManyAddAssociationMixin,
+	Optional,
+	Model
+} from 'sequelize';
 import { sequelize } from '../config/db';
+import { PokeType } from './PokeType';
+import { Profile } from './Profile';
 
 interface PokemonAttributes {
 	id: number;
@@ -18,14 +26,17 @@ export class Pokemon
 	extends Model<PokemonAttributes, PokemonCreationAttributes>
 	implements PokemonAttributes
 {
-	public id!: number;
-	public name!: string;
-	public hp!: number;
-	public atk!: number;
-	public def!: number;
-	public atk_spe!: number;
-	public def_spe!: number;
-	public speed!: number;
+	declare id: number;
+	declare name: string;
+	declare hp: number;
+	declare atk: number;
+	declare def: number;
+	declare atk_spe: number;
+	declare def_spe: number;
+	declare speed: number;
+
+	declare addTypes: BelongsToManyAddAssociationsMixin<PokeType, number>;
+	declare addVoter: BelongsToManyAddAssociationMixin<Profile, number>;
 }
 
 Pokemon.init(
