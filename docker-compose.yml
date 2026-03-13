@@ -18,6 +18,10 @@ services:
             - "${API_PORT}:${API_PORT}"
         environment:
             - DATABASE_URL=${DATABASE_URL}
+        volumes:
+            - ./api:/app
+            - /app/node_modules
+        command: npm run dev
         networks:
             - app-network
         depends_on:

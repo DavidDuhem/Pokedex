@@ -16,12 +16,24 @@ export const sequelize = new Sequelize(dbUrl, {
 });
 
 export const connectDB = async () => {
-    try {
-        await sequelize.authenticate();
-        console.log('✅ Connection à PostgreSQL réussie (Pokedex DB)');
-        await sequelize.sync({ alter: true });
-    } catch (error) {
-        console.error('❌ Impossible de se connecter à la base de données:', error);
-        process.exit(1);
+    const maxTries = 10;
+    let currentTry = 1;
+
+    while (currentTry <= maxTries) {
+        try {
+            await sequelize.authenticate();
+            console.log('✅ Connexion à PostgreSQL réussie (Pokedex DB)');
+            
+            await sequelize.sync({ alter: true });
+            console.log('✅ Modèles synchronisés');
+            return;
+        } catch (error) {
+            console.error(`❌ Tentative ${currentTry}/${maxTries} échouée. La DB n'est pas prête...`);
+            currentTry++;
+            await new Promise(resolve => setTimeout(resolve, 3000));
+        }
     }
+
+    console.error('❌ Impossible de se connecter après 10 tentatives. Arrêt.');
+    process.exit(1);
 };
