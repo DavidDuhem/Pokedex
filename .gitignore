@@ -1,0 +1,27 @@
+# --- GÉNÉRAL ---
+node_modules/
+.DS_Store
+.env
+.env.local
+.env.*.local
+
+# --- API (Express / TypeScript / Sequelize) ---
+api/dist/
+api/node_modules/
+api/*.sqlite
+api/*.log
+
+# --- CLIENT (SvelteKit) ---
+client/.svelte-kit/
+client/build/
+client/node_modules/
+client/.env
+client/.env.*
+
+# --- DOCKER & DB ---
+postgres_data/
+.docker/
+
+# --- IDE ---
+.vscode/
+.idea/
