@@ -1,42 +1,23 @@
 <script>
-	import BackButton from '$lib/components/basics/BackButton.svelte';
-	import ConnexionButton from '$lib/components/basics/ConnexionButton.svelte';
-
-	// let menuOpen = false;
-
-	// function toggleMenu() {
-	// 	menuOpen = !menuOpen;
-	// }
-
-	// function closeMenu() {
-	// 	menuOpen = false;
-	// }
+	import ConnexionButton from '../basics/ConnexionButton.svelte';
 </script>
 
-<header class="sticky top-0 z-50 bg-red-500 shadow-md px-8 py-4">
-	<nav class={`flex flex-row items-center justify-between`}>
-		<div class="flex-1 flex justify-center gap-4 mt-5 sm:mt-0 flex-col sm:flex-row">
-			<a
-				href="/pokemons"
-				class="w-full sm:w-auto text-center bg-white text-red-500 font-semibold px-4 py-2 rounded-lg hover:bg-red-100 transition"
-				// on:click={closeMenu}
-			>
-				Pokémons
-			</a>
-			<a
-				href="/teams"
-				class="w-full sm:w-auto text-center bg-white text-red-500 font-semibold px-4 py-2 rounded-lg hover:bg-red-100 transition"
-				// on:click={closeMenu}
-			>
-				Équipes
-			</a>
-			<a
-				href="/types"
-				class="w-full sm:w-auto text-center bg-white text-red-500 font-semibold px-4 py-2 rounded-lg hover:bg-red-100 transition"
-				// on:click={closeMenu}
-			>
-				Types
-			</a>
+<header class="bg-slate-900 border-b border-slate-800 p-4 shadow-md">
+	<div class="container mx-auto flex justify-between items-center">
+		<div class="flex items-center gap-8">
+			<h1 class="text-2xl font-bold text-red-500 tracking-tighter">
+				<a href="/">POKÉ<span class="text-white">DEX</span></a>
+			</h1>
+
+			<nav class="hidden md:flex space-x-6 text-slate-300 font-medium">
+				<a href="/pokemons" class="hover:text-white transition-colors">Pokémons</a>
+				<a href="/teams" class="hover:text-white transition-colors">Équipes</a>
+				<a href="/types" class="hover:text-white transition-colors">Types</a>
+			</nav>
 		</div>
-	</nav>
+
+		<div class="flex items-center">
+			<ConnexionButton />
+		</div>
+	</div>
 </header>
