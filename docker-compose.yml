@@ -1,26 +1,35 @@
 services:
     client:
         build:
-            context: ./client
-            dockerfile: Dockerfile
+            context: .
+            dockerfile: client/Dockerfile
+            args:
+                - PUBLIC_API_URL=${PUBLIC_API_URL}
+        container_name: pokedex-client
         volumes:
-            - ./client:/app
+            - .:/app
             - /app/node_modules
-            - /app/.svelte-kit
+            - /app/client/node_modules
+            - /app/client/.svelte-kit
         env_file:
             - .env
         ports:
             - '3004:5173'
-        command: npm run dev -- --host 0.0.0.0
+        command: npm run dev --workspace=client -- --host 0.0.0.0
         environment:
             - PUBLIC_API_URL=${PUBLIC_API_URL}
             - CHOKIDAR_USEPOLLING=true
             - WATCHPACK_POLLING=true
         networks:
             - app-network
+        depends_on:
+            - api
 
     api:
-        build: ./api
+        build:
+            context: .
+            dockerfile: api/Dockerfile
+        container_name: pokedex-api
         env_file:
             - .env
         ports:
@@ -28,9 +37,10 @@ services:
         environment:
             - DATABASE_URL=${DATABASE_URL}
         volumes:
-            - ./api:/app
+            - .:/app
             - /app/node_modules
-        command: npm run dev
+            - /app/api/node_modules
+        command: npm run dev --workspace=api
         networks:
             - app-network
         depends_on:
@@ -38,10 +48,13 @@ services:
 
     db:
         image: postgres:15-alpine
+        container_name: pokedex-db
         environment:
             - POSTGRES_USER=${DB_USER}
             - POSTGRES_PASSWORD=${DB_PASSWORD}
             - POSTGRES_DB=${DB_NAME}
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
         networks:
             - app-network
 

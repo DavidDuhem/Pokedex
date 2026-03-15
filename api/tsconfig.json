@@ -7,7 +7,10 @@
 		"skipLibCheck": true,
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
-		"outDir": "./dist"
+		"outDir": "./dist",
+		"paths": {
+			"@pokedex/shared/*": ["../shared/*"]
+		}
 	},
 	"include": ["src/**/*"]
 }

@@ -1,13 +1,15 @@
 FROM node:20-alpine
-
 WORKDIR /app
 
 COPY package*.json ./
+COPY shared/package*.json ./shared/
+COPY api/package*.json ./api/
 
 RUN npm install
 
-COPY . .
+COPY shared/ ./shared/
+COPY api/ ./api/
 
+WORKDIR /app/api
 EXPOSE 5000
-
-CMD ["node", "index.js"]
+CMD ["npm", "run", "dev"]

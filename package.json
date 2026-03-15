@@ -1,0 +1,13 @@
+{
+	"name": "pokedex-monorepo",
+	"private": true,
+	"type": "module",
+	"workspaces": [
+		"api",
+		"client",
+		"shared"
+	],
+	"dependencies": {
+		"zod": "^3.22.0"
+	}
+}

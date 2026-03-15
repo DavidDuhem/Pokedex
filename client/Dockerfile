@@ -1,32 +1,16 @@
-# --- Étape 1 : Build ---
-FROM node:20-alpine AS builder
-
-ARG PUBLIC_API_URL
-
-WORKDIR /app
-COPY package*.json ./
-
-RUN npm install
-COPY . .
-
-ENV PUBLIC_API_URL=$PUBLIC_API_URL
-RUN npm run build
-
-# --- Étape 2 : Run ---
 FROM node:20-alpine
 WORKDIR /app
 
-COPY --from=builder /app/build ./build
-COPY --from=builder /app/package.json ./package.json
+COPY package*.json ./
+COPY shared/package*.json ./shared/
+COPY client/package*.json ./client/
 
-COPY --from=builder /app/node_modules ./node_modules
+RUN npm install
 
-ENV NODE_ENV=production
-ENV PORT=3000
+COPY shared/ ./shared/
+COPY client/ ./client/
 
-ARG PUBLIC_API_URL
-ENV PUBLIC_API_URL=$PUBLIC_API_URL
+WORKDIR /app/client
+EXPOSE 5173
 
-EXPOSE 3000
-
-CMD ["node", "build/index.js"]
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
