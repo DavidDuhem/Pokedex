@@ -5,9 +5,9 @@ import {
 	Optional,
 	Model
 } from 'sequelize';
-import { sequelize } from '../config/db';
-import { PokeType } from './PokeType';
-import { Profile } from './Profile';
+import { sequelize } from '../config/db.js';
+import { PokeType } from './PokeType.js';
+import { Profile } from './Profile.js';
 
 interface PokemonAttributes {
 	id: number;

@@ -1,6 +1,6 @@
 import argon2 from 'argon2';
-import { Auth, Profile, PokeType, Pokemon, PokemonTeam, Team } from '../models';
-import { sequelize } from './db';
+import { Auth, Profile, PokeType, Pokemon, PokemonTeam, Team } from '../models/index.js';
+import { sequelize } from './db.js';
 
 async function seed() {
 	try {

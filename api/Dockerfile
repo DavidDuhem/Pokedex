@@ -12,4 +12,5 @@ COPY api/ ./api/
 
 WORKDIR /app/api
 EXPOSE 5000
+
 CMD ["npm", "run", "dev"]

@@ -1,10 +1,8 @@
 import express from 'express';
 import type { Request, Response } from 'express';
 import cors from 'cors';
-import { connectDB, sequelize } from './config/db';
-import { router } from './router';
-
-import './models';
+import { connectDB, sequelize } from './config/db.js';
+import { router } from './router.js';
 
 const app = express();
 

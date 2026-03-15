@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from 'sequelize';
-import { sequelize } from '../config/db';
+import { sequelize } from '../config/db.js';
+import argon2 from 'argon2';
 
 interface AuthAttributes {
 	id: number;
@@ -38,6 +39,16 @@ Auth.init(
 	{
 		sequelize,
 		tableName: 'auth',
-		timestamps: true
+		timestamps: true,
+		hooks: {
+			beforeCreate: async (auth) => {
+				auth.password = await argon2.hash(auth.password);
+			},
+			beforeUpdate: async (auth) => {
+				if (auth.changed('password')) {
+					auth.password = await argon2.hash(auth.password);
+				}
+			}
+		}
 	}
 );

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { Pokemon, PokeType } from '../models';
-import { controllerWrapper } from '../utils/controllerWrapper';
+import { Pokemon, PokeType } from '../models/index.js';
+import { controllerWrapper } from '../utils/controllerWrapper.js';
 
 export class PokemonController {
 	public getAll = controllerWrapper(async (req: Request, res: Response) => {

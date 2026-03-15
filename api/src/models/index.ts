@@ -1,10 +1,10 @@
-import { Pokemon } from './Pokemon';
-import { PokeType } from './PokeType';
-import { PokemonTeam } from './PokemonTeam';
-import { Auth } from './Auth';
-import { Profile } from './Profile';
-import { Team } from './Team';
-import { Vote } from './Vote';
+import { Pokemon } from './Pokemon.js';
+import { PokeType } from './PokeType.js';
+import { PokemonTeam } from './PokemonTeam.js';
+import { Auth } from './Auth.js';
+import { Profile } from './Profile.js';
+import { Team } from './Team.js';
+import { Vote } from './Vote.js';
 
 Pokemon.belongsToMany(PokeType, {
 	through: 'pokemon_type',
