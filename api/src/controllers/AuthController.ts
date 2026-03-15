@@ -3,7 +3,7 @@ import { controllerWrapper } from '../utils/controllerWrapper.js';
 import { registerSchema, loginSchema } from '@pokedex/shared/schemas/auth.js';
 import { sequelize } from '../config/db.js';
 import { Auth, Profile } from '../models/index.js';
-import { generateAccessToken, sendCookie } from '../utils/jwtHelper.js';
+import { clearCookies, generateAccessToken, sendCookies } from '../utils/jwtHelper.js';
 
 export class AuthController {
 	public register = controllerWrapper(async (req: Request, res: Response) => {
@@ -68,7 +68,7 @@ export class AuthController {
 			email: existingAuth.email
 		});
 
-		sendCookie({
+		sendCookies({
 			cookieName: 'accessToken',
 			res,
 			token: accessToken,
@@ -77,6 +77,30 @@ export class AuthController {
 
 		res.status(200).json({
 			message: 'Connexion réussie'
+		});
+	});
+
+	public getCurrentUser = controllerWrapper(async (req: Request, res: Response) => {
+		const userId = req.user.id;
+
+		const user = await Auth.findByPk(userId, {
+			attributes: ['id']
+		});
+
+		if (!user) {
+			return res.status(404).json({ message: 'Utilisateur introuvable' });
+		}
+
+		res.status(200).json({
+			user: user
+		});
+	});
+
+	public logout = controllerWrapper(async (req: Request, res: Response) => {
+		clearCookies(res);
+
+		res.status(200).json({
+			message: 'Déconnexion réussie'
 		});
 	});
 }

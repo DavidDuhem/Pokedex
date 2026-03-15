@@ -8,9 +8,10 @@
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
 		"outDir": "./dist",
+		"typeRoots": ["./node_modules/@types", "./src/types"],
 		"paths": {
 			"@pokedex/shared/*": ["../shared/*"]
 		}
 	},
-	"include": ["src/**/*"]
+	"include": ["src/**/*", "src/types/express.d.ts"]
 }

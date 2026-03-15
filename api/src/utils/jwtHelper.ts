@@ -25,11 +25,21 @@ export const verifyToken = (token: string): TokenPayload => {
 	return jwt.verify(token, JWT_SECRET) as TokenPayload;
 };
 
-export function sendCookie({ cookieName, res, token, maxAge }: Cookie) {
+export function sendCookies({ cookieName, res, token, maxAge }: Cookie) {
 	res.cookie(cookieName, token, {
 		httpOnly: true,
 		secure: process.env.NODE_ENV === 'production',
 		sameSite: 'lax',
-		maxAge: maxAge
+		maxAge: maxAge,
+		path: '/'
+	});
+}
+
+export function clearCookies(res: Response) {
+	res.cookie('accessToken', {
+		httpOnly: true,
+		secure: process.env.NODE_ENV === 'production',
+		sameSite: 'lax',
+		path: '/'
 	});
 }
