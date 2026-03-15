@@ -4,5 +4,5 @@ import authRoutes from './routes/auth.routes.js';
 
 export const router = Router();
 
-router.use('/pokemons', pokemonRoutes);
+router.use('/pokemon', pokemonRoutes);
 router.use('/auth', authRoutes);

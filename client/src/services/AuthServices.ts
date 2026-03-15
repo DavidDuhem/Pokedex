@@ -1,5 +1,5 @@
 import { api } from '../lib/api';
-import type { LoginInput, RegisterInput } from '@pokedex/shared/schemas/auth';
+import type { LoginInput, RegisterInput } from '@pokedex/shared/schemas/auth.schema';
 
 export const AuthService = {
 	async register(data: RegisterInput) {
@@ -16,7 +16,7 @@ export const AuthService = {
 		return response.data;
 	},
 
-	getCurrentUser: async (customFetch?: typeof fetch, headers?: Headers) => {
+	async getCurrentUser(customFetch?: typeof fetch, headers?: Headers) {
 		if (customFetch) {
 			// Logique SERVEUR
 			const res = await customFetch('http://api:5000/api/auth/me', {

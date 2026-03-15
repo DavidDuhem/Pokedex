@@ -1,7 +1,7 @@
 import { AuthService } from '../services/AuthServices';
 import type { LayoutServerLoad } from './$types';
 
-export const load: LayoutServerLoad = async ({ fetch, request }) => {
+export const load = (async ({ fetch, request }) => {
 	try {
 		const res = await AuthService.getCurrentUser(fetch, request.headers);
 
@@ -10,4 +10,4 @@ export const load: LayoutServerLoad = async ({ fetch, request }) => {
 		console.error('Erreur Load SSR:', err);
 	}
 	return { user: null };
-};
+}) satisfies LayoutServerLoad;

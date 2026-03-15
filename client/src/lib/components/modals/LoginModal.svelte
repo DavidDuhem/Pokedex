@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { AuthService } from '../../../services/AuthServices';
-	import { registerSchema, loginSchema } from '@pokedex/shared/schemas/auth';
+	import { registerSchema, loginSchema } from '@pokedex/shared/schemas/auth.schema';
 	import BaseModal from './BaseModal.svelte';
 	import { requestApi } from '../../../services/utils';
 	import { auth } from '$stores/auth-store.svelte';

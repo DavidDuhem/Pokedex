@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { controllerWrapper } from '../utils/controllerWrapper.js';
-import { registerSchema, loginSchema } from '@pokedex/shared/schemas/auth.js';
+import { registerSchema, loginSchema } from '@pokedex/shared/schemas/auth.schema.js';
 import { sequelize } from '../config/db.js';
 import { Auth, Profile } from '../models/index.js';
 import { clearCookies, generateAccessToken, sendCookies } from '../utils/jwtHelper.js';

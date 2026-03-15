@@ -4,7 +4,7 @@ services:
             context: .
             dockerfile: client/Dockerfile
             args:
-                - PUBLIC_API_URL=${PUBLIC_API_URL}
+                - VITE_API_URL=${VITE_API_URL}
         container_name: pokedex-client
         volumes:
             - .:/app

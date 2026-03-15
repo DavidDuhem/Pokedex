@@ -19,10 +19,10 @@ export class PokemonController {
 		res.json({
 			data: rows,
 			pagination: {
-				totalItems: count,
+				totalPokemon: count,
 				totalPages: Math.ceil(count / limit),
 				currentPage: page,
-				itemsPerPage: limit
+				pokemonPerPage: limit
 			}
 		});
 	});
