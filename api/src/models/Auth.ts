@@ -14,6 +14,14 @@ export class Auth extends Model<AuthAttributes, AuthCreationAttributes> implemen
 	declare id: number;
 	declare email: string;
 	declare password: string;
+
+	public async checkPassword(inputPassword: string): Promise<boolean> {
+		try {
+			return await argon2.verify(this.password, inputPassword);
+		} catch (error) {
+			return false;
+		}
+	}
 }
 
 Auth.init(

@@ -45,12 +45,23 @@ export class AuthController {
 
 			await t.commit();
 
-			res.status(201).json({ message: 'Utilisateur créé avec succès' });
+			res.status(201).json({ message: 'Compte créé ! Vous pouvez vous connecter' });
 		} catch (error) {
 			await t.rollback();
 			throw error;
 		}
 	});
 
-	public login = controllerWrapper(async (req: Request, res: Response) => {});
+	public login = controllerWrapper(async (req: Request, res: Response) => {
+		const { email, password } = await loginSchema.parseAsync(req.body);
+
+		const existingAuth = await Auth.findOne({ where: { email } });
+		if (!existingAuth || !(await existingAuth.checkPassword(password))) {
+			return res.status(401).json({
+				message: 'Identifiants invalides'
+			});
+		}
+
+		res.status(200).json({ message: 'Connexion réussie' });
+	});
 }
