@@ -3,6 +3,7 @@ import { controllerWrapper } from '../utils/controllerWrapper.js';
 import { registerSchema, loginSchema } from '@pokedex/shared/schemas/auth.js';
 import { sequelize } from '../config/db.js';
 import { Auth, Profile } from '../models/index.js';
+import { generateAccessToken, sendCookie } from '../utils/jwtHelper.js';
 
 export class AuthController {
 	public register = controllerWrapper(async (req: Request, res: Response) => {
@@ -62,6 +63,20 @@ export class AuthController {
 			});
 		}
 
-		res.status(200).json({ message: 'Connexion réussie' });
+		const accessToken = generateAccessToken({
+			id: existingAuth.id.toString(),
+			email: existingAuth.email
+		});
+
+		sendCookie({
+			cookieName: 'accessToken',
+			res,
+			token: accessToken,
+			maxAge: 15 * 60 * 1000
+		});
+
+		res.status(200).json({
+			message: 'Connexion réussie'
+		});
 	});
 }

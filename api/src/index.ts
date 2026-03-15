@@ -1,15 +1,33 @@
 import express from 'express';
 import type { Request, Response } from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import { connectDB, sequelize } from './config/db.js';
 import { router } from './router.js';
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = process.env.AlLOWED_ORIGIN || 'http://localhost:3004';
+
+app.use(
+	cors({
+		origin: (origin, callback) => {
+			if (!origin || allowedOrigins.includes(origin)) {
+				callback(null, true);
+			} else {
+				callback(new Error('Not allowed by CORS'));
+			}
+		},
+		credentials: true,
+		methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+		allowedHeaders: ['Content-Type', 'Authorization']
+	})
+);
+
 app.use(express.json());
 app.disable('x-powered-by');
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 connectDB();
 
