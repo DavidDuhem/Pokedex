@@ -7,7 +7,9 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		alias: {
-			'@pokedex/shared': '../shared'
+			$components: 'src/lib/components',
+			'@pokedex/shared': '../shared',
+			$stores: 'src/lib/stores'
 		}
 	}
 };

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { AuthService } from '../../../services/AuthServices';
 	import { registerSchema, loginSchema } from '@pokedex/shared/schemas/auth';
-	import type { RegisterInput, LoginInput } from '@pokedex/shared/schemas/auth';
 	import BaseModal from './BaseModal.svelte';
 	import { requestApi } from '../../../services/utils';
+	import { auth } from '$stores/auth-store.svelte';
 
 	let { onClose } = $props<{ onClose: () => void }>();
 
@@ -35,6 +35,9 @@
 				onLoading: (val) => (isLoading = val),
 				onError: (msg) => (errorMessage = msg),
 				onSuccess: (res) => {
+					if (res && res.user) {
+						auth.login(res.user);
+					}
 					onClose();
 				}
 			});

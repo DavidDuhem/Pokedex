@@ -14,5 +14,26 @@ export const AuthService = {
 	async login(credentials: LoginInput) {
 		const response = await api.post('/auth/login', credentials);
 		return response.data;
+	},
+
+	getCurrentUser: async (customFetch?: typeof fetch, headers?: Headers) => {
+		if (customFetch) {
+			// Logique SERVEUR
+			const res = await customFetch('http://api:5000/api/auth/me', {
+				headers: headers
+			});
+
+			if (!res.ok) return null;
+			return await res.json();
+		}
+
+		// Logique CLIENT
+		const res = await api.get('/auth/me');
+		return res.data;
+	},
+
+	async logout() {
+		const response = await api.post('/auth/logout');
+		return response.data;
 	}
 };

@@ -76,7 +76,8 @@ export class AuthController {
 		});
 
 		res.status(200).json({
-			message: 'Connexion réussie'
+			message: 'Connexion réussie',
+			user: { id: existingAuth.id }
 		});
 	});
 
