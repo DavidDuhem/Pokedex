@@ -11,11 +11,7 @@
 	let { data, children }: LayoutProps = $props();
 
 	$effect(() => {
-		if (data.user) {
-			auth.login(data.user);
-		} else {
-			auth.logout();
-		}
+		auth.setUser(data.user);
 	});
 </script>
 

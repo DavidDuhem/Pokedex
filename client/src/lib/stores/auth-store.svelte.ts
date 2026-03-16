@@ -6,7 +6,7 @@ interface User {
 
 class AuthStore {
 	user = $state<User | null>(null);
-	isLoading = $state<boolean>(true);
+	isLoading = $state<boolean>(false);
 
 	isLoggedIn = $derived(this.user !== null);
 
@@ -17,7 +17,12 @@ class AuthStore {
 		this.isLoading = false;
 	}
 
+	setUser(user: User | null) {
+		this.user = user;
+	}
+
 	async logout() {
+		this.isLoading = true;
 		try {
 			await AuthService.logout();
 		} catch (err) {
