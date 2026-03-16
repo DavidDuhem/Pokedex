@@ -11,11 +11,11 @@
 
 <div class="max-w-4xl mx-auto px-4">
 	<h1 class="text-3xl font-bold text-red-600 mb-4">Liste des Pokémons</h1>
-	<!-- {#if data.error}
+	{#if data.error}
 		<p>Erreur : {data.error}</p>
 	{:else if !pokemons || pokemons.length === 0}
-		<p>Aucun pokémon trouvé.</p> -->
-	{#if res && pagination}
+		<p>Aucun pokémon trouvé.</p>
+	{:else if res && pagination}
 		<PokemonCardTable
 			{pokemons}
 			totalPokemon={pagination.totalPokemon}

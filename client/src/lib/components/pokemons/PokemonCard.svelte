@@ -1,7 +1,15 @@
-<script>
+<script lang="ts">
 	import { auth } from '$lib/stores/auth-store.svelte.js';
+	import { page } from '$app/state';
+	import type { PokemonApiResponse } from '@pokedex/shared/schemas/pokemon.schema';
 
 	let { pokemon } = $props();
+
+	const isLoggedIn = $derived(auth.user !== null || page.data.user !== null);
+
+	function onLikeClicked(pokemon: PokemonApiResponse) {
+		console.log('Toggle Like');
+	}
 </script>
 
 <div class="relative">
@@ -21,14 +29,14 @@
 		{/if}
 	</a>
 
-	<!-- {#if auth.isLoggedIn && pokemon.votesCount != null}
+	{#if isLoggedIn && pokemon.totalVotes != null}
 		<button
 			type="button"
-			class="absolute top-0 right-0 p-1 transition"
+			class="absolute top-0 right-0 p-1 transition cursor-pointer"
 			aria-label="Like this Pokémon"
 			onclick={(e) => {
 				e.stopPropagation();
-				onLikeClicked(pokemon, pokemon.hasVoted);
+				onLikeClicked(pokemon);
 			}}
 		>
 			<svg
@@ -47,5 +55,5 @@
 				/>
 			</svg>
 		</button>
-	{/if} -->
+	{/if}
 </div>

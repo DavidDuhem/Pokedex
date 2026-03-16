@@ -35,6 +35,9 @@ export class Pokemon
 	declare def_spe: number;
 	declare speed: number;
 
+	declare totalVotes?: number;
+	declare hasVoted?: boolean;
+
 	declare addTypes: BelongsToManyAddAssociationsMixin<PokeType, number>;
 	declare addVoter: BelongsToManyAddAssociationMixin<Profile, number>;
 }

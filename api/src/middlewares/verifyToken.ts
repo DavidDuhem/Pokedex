@@ -20,3 +20,21 @@ export const isAuthenticated = (req: Request, res: Response, next: NextFunction)
 		});
 	}
 };
+
+export const tryAuthenticated = (req: Request, res: Response, next: NextFunction) => {
+	const token = req.cookies.accessToken;
+
+	if (!token) {
+		req.user = null;
+		next();
+	}
+
+	try {
+		const decoded = verifyToken(token);
+		req.user = decoded;
+	} catch (error) {
+		req.user = null;
+	}
+
+	next();
+};
