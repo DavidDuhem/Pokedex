@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const PokemonSchema = z.object({
+export const pokemonSchema = z.object({
 	id: z.number(),
 	name: z.string(),
 	totalVotes: z.preprocess((val) => Number(val), z.number()),
@@ -19,8 +19,8 @@ export const PokemonSchema = z.object({
 		.optional()
 });
 
-export const PokemonApiResponseSchema = z.object({
-	data: z.array(PokemonSchema),
+export const pokemonApiResponseSchema = z.object({
+	data: z.array(pokemonSchema),
 	pagination: z.object({
 		totalPokemon: z.number(),
 		totalPages: z.number(),
@@ -29,5 +29,16 @@ export const PokemonApiResponseSchema = z.object({
 	})
 });
 
-export type Pokemon = z.infer<typeof PokemonSchema>;
-export type PokemonApiResponse = z.infer<typeof PokemonApiResponseSchema>;
+export const pokemonVoteSchema = z.object({
+	pokemonId: z.number()
+});
+
+export const pokemonVoteApiResponseSchema = z.object({
+	voted: z.boolean(),
+	message: z.string()
+});
+
+export type Pokemon = z.infer<typeof pokemonSchema>;
+export type PokemonApiResponse = z.infer<typeof pokemonApiResponseSchema>;
+export type PokemonVote = z.infer<typeof pokemonVoteSchema>;
+export type PokemonVoteApiResponse = z.infer<typeof pokemonVoteApiResponseSchema>;

@@ -7,6 +7,6 @@ const pokemonController = new PokemonController();
 
 router.get('/', tryAuthenticated, pokemonController.getAll);
 
-router.get('/:id/vote', isAuthenticated, pokemonController.toggleVote);
+router.post('/:id/vote', isAuthenticated, pokemonController.toggleVote);
 
 export default router;

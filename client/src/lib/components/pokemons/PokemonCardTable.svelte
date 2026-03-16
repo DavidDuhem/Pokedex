@@ -1,7 +1,15 @@
-<script>
+<script lang="ts">
 	import PokemonCard from '$lib/components/pokemons/PokemonCard.svelte';
+	import type { Pokemon } from '@pokedex/shared/schemas/pokemon.schema';
 
-	let { pokemons, totalPokemon, pokemonPerPage, currentPage = 1 } = $props();
+	interface Props {
+		pokemons: Pokemon[];
+		totalPokemon: number;
+		pokemonPerPage: number;
+		currentPage?: number;
+	}
+
+	let { pokemons = $bindable(), totalPokemon, pokemonPerPage, currentPage = 1 }: Props = $props();
 
 	const nbPages = $derived(
 		Array.from({ length: Math.ceil(totalPokemon / pokemonPerPage) }, (_, i) => i + 1)
@@ -12,8 +20,15 @@
 </script>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-10 mb-10">
-	{#each pokemons as pokemon}
-		<PokemonCard {pokemon} />
+	{#each pokemons as pokemon (pokemon.id)}
+		<PokemonCard
+			{pokemon}
+			onUpdate={(voted: boolean) => {
+				const currentVotes = Number(pokemon.totalVotes);
+				pokemon.hasVoted = voted;
+				pokemon.totalVotes = voted ? currentVotes + 1 : currentVotes - 1;
+			}}
+		/>
 	{/each}
 </div>
 

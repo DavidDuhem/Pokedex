@@ -1,5 +1,9 @@
 import { env as publicEnv } from '$env/dynamic/public';
-import type { PokemonApiResponse } from '@pokedex/shared/schemas/pokemon.schema';
+import { api } from '$lib/api';
+import type {
+	PokemonApiResponse,
+	PokemonVoteApiResponse
+} from '@pokedex/shared/schemas/pokemon.schema';
 
 export const PokemonService = {
 	async getAll(page: number = 1, svelteFetch: typeof fetch): Promise<PokemonApiResponse> {
@@ -10,7 +14,9 @@ export const PokemonService = {
 		const url = `${baseUrl}/pokemon?page=${page}`;
 
 		try {
-			const response = await svelteFetch(url);
+			const response = await svelteFetch(url, {
+				credentials: 'include'
+			});
 
 			if (!response.ok) {
 				throw {
@@ -26,6 +32,15 @@ export const PokemonService = {
 				status: error.status || 500,
 				message: error.message || 'Erreur réseau inconnue'
 			};
+		}
+	},
+
+	async toggleVote(pokemonId: number): Promise<PokemonVoteApiResponse> {
+		try {
+			const response = await api.post(`/pokemon/${pokemonId}/vote`);
+			return response.data;
+		} catch (error: any) {
+			throw error.response?.data || { message: 'Erreur réseau' };
 		}
 	}
 };

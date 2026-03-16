@@ -12,8 +12,12 @@ export const AuthService = {
 	},
 
 	async login(credentials: LoginInput) {
-		const response = await api.post('/auth/login', credentials);
-		return response.data;
+		try {
+			const response = await api.post('/auth/login', credentials);
+			return response.data;
+		} catch (error: any) {
+			throw error.response?.data || { message: 'Erreur réseau' };
+		}
 	},
 
 	async getCurrentUser(customFetch?: typeof fetch, headers?: Headers) {

@@ -1,14 +1,29 @@
 <script lang="ts">
 	import { auth } from '$lib/stores/auth-store.svelte.js';
 	import { page } from '$app/state';
-	import type { PokemonApiResponse } from '@pokedex/shared/schemas/pokemon.schema';
+	import { requestApi } from '../../../services/utils';
+	import { pokemonVoteSchema, type Pokemon } from '@pokedex/shared/schemas/pokemon.schema';
+	import { PokemonService } from '../../../services/PokemonService';
+	import { invalidateAll } from '$app/navigation';
 
-	let { pokemon } = $props();
+	interface Props {
+		pokemon: Pokemon;
+		onUpdate: (voted: boolean) => void;
+	}
+
+	let { pokemon, onUpdate }: Props = $props();
 
 	const isLoggedIn = $derived(auth.user !== null || page.data.user !== null);
 
-	function onLikeClicked(pokemon: PokemonApiResponse) {
-		console.log('Toggle Like');
+	async function onLikeClicked(pokemonId: number) {
+		await requestApi({
+			schema: pokemonVoteSchema,
+			data: { pokemonId: pokemonId },
+			request: (validatedData) => PokemonService.toggleVote(validatedData.pokemonId),
+			onSuccess: async (res) => {
+				onUpdate(res.voted);
+			}
+		});
 	}
 </script>
 
@@ -24,8 +39,8 @@
 			class="w-20 h-20 object-contain mb-2"
 		/>
 		<span class="text-red-600 font-semibold">{pokemon.name}</span>
-		{#if pokemon.votesCount != null}
-			<span>{pokemon.votesCount} likes</span>
+		{#if pokemon.totalVotes != null}
+			<span class="text-black">{pokemon.totalVotes} likes</span>
 		{/if}
 	</a>
 
@@ -36,13 +51,13 @@
 			aria-label="Like this Pokémon"
 			onclick={(e) => {
 				e.stopPropagation();
-				onLikeClicked(pokemon);
+				onLikeClicked(pokemon.id);
 			}}
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				class="h-6 w-6 transition-colors duration-200
-    {pokemon.hasVoted ? 'text-red-500 hover:text-gray-400' : 'text-gray-400 hover:text-red-500'}"
+    {!!pokemon.hasVoted ? 'text-red-500 hover:text-gray-400' : 'text-gray-400 hover:text-red-500'}"
 				fill="currentColor"
 				viewBox="0 0 24 24"
 			>

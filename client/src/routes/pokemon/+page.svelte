@@ -4,9 +4,14 @@
 
 	let { data }: { data: PageData } = $props();
 
-	const res = $derived(data.apiResponse);
-	const pokemons = $derived(res?.data || []);
-	const pagination = $derived(res?.pagination);
+	let localResponse = $state<PageData['apiResponse']>(null);
+	$effect(() => {
+		localResponse = data.apiResponse;
+	});
+
+	// const res = $derived(data.apiResponse);
+	const pokemons = $derived(localResponse?.data || []);
+	const pagination = $derived(localResponse?.pagination);
 </script>
 
 <div class="max-w-4xl mx-auto px-4">
@@ -15,7 +20,7 @@
 		<p>Erreur : {data.error}</p>
 	{:else if !pokemons || pokemons.length === 0}
 		<p>Aucun pokémon trouvé.</p>
-	{:else if res && pagination}
+	{:else if localResponse && pagination}
 		<PokemonCardTable
 			{pokemons}
 			totalPokemon={pagination.totalPokemon}
