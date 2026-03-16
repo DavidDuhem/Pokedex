@@ -26,7 +26,7 @@ export const tryAuthenticated = (req: Request, res: Response, next: NextFunction
 
 	if (!token) {
 		req.user = null;
-		next();
+		return next();
 	}
 
 	try {
