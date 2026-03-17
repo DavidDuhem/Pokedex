@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { pokemonSchema } from '@pokedex/shared/schemas/pokemon.schema';
+import { partial } from 'zod/v4-mini';
 
 const teamSchema = z.object({
 	id: z.number(),
@@ -20,6 +21,8 @@ export const addTeamSchema = z.object({
 	description: z.string().max(255, 'La description est trop longue')
 });
 
+export const updateTeamSchema = addTeamSchema.partial();
+
 export const createTeamResponseSchema = z.object({
 	message: z.string(),
 	team: teamSchema
@@ -28,4 +31,5 @@ export const createTeamResponseSchema = z.object({
 export const Teams = z.array(teamSchema);
 export type Team = z.infer<typeof teamSchema>;
 export type AddTeamInput = z.infer<typeof addTeamSchema>;
+export type UpdateTeamInput = z.infer<typeof updateTeamSchema>;
 export type CreateTeamResponse = z.infer<typeof createTeamResponseSchema>;

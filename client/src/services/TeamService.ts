@@ -1,4 +1,8 @@
-import type { CreateTeamResponse, Team } from '@pokedex/shared/schemas/team.schema';
+import type {
+	CreateTeamResponse,
+	Team,
+	UpdateTeamInput
+} from '@pokedex/shared/schemas/team.schema';
 import { api } from './apiClient';
 
 export const TeamService = {
@@ -8,5 +12,8 @@ export const TeamService = {
 		api.post<CreateTeamResponse>('/teams', teamToAdd, svelteFetch),
 
 	deleteTeam: (teamId: number, svelteFetch: typeof fetch) =>
-		api.delete(`/teams/${teamId}`, svelteFetch)
+		api.delete<{ message: string }>(`/teams/${teamId}`, svelteFetch),
+
+	updateTeam: (teamId: number, updatedData: UpdateTeamInput, svelteFetch: typeof fetch) =>
+		api.patch<Team>(`/teams/${teamId}`, updatedData, svelteFetch)
 };

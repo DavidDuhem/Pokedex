@@ -1,9 +1,15 @@
 <script lang="ts">
-	import type { Team } from '@pokedex/shared/schemas/team.schema';
+	import {
+		updateTeamSchema,
+		type Team,
+		type UpdateTeamInput
+	} from '@pokedex/shared/schemas/team.schema';
 	import { auth } from '$stores/auth-store.svelte';
 	import { page } from '$app/state';
 	import { TeamService } from '../../../services/TeamService';
 	import { invalidateAll } from '$app/navigation';
+	import { requestApi } from '../../../services/utils';
+	import z from 'zod';
 
 	let {
 		teams = $bindable([])
@@ -38,16 +44,30 @@
 	}
 
 	async function handleConfirmEdit(teamId: number) {
-		// Handle confirm edit
-		editingId = null;
+		await requestApi<UpdateTeamInput, Team>({
+			schema: updateTeamSchema,
+			data: {
+				name: editName,
+				description: editDescription
+			},
+			request: (validatedData) => TeamService.updateTeam(teamId, validatedData, fetch),
+			onSuccess: (updatedTeam) => {
+				teams = teams.map((team) => (team.id === teamId ? updatedTeam : team));
+				editingId = null;
+			}
+		});
 	}
 
 	async function handleConfirmDelete(teamId: number) {
-		const res = await TeamService.deleteTeam(teamId, fetch);
-		if (res) {
-			teams = teams.filter((team) => team.id !== teamId);
-			deletingId = null;
-		}
+		await requestApi<number, { message: string }>({
+			schema: z.number(),
+			data: teamId,
+			request: (id) => TeamService.deleteTeam(id, fetch),
+			onSuccess: () => {
+				teams = teams.filter((team) => team.id !== teamId);
+				deletingId = null;
+			}
+		});
 	}
 </script>
 

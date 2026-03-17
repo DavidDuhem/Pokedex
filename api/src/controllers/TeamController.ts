@@ -3,7 +3,7 @@ import { controllerWrapper } from '../utils/controllerWrapper.js';
 import { Team } from '../models/Team.js';
 import { Pokemon } from '../models/Pokemon.js';
 import { PokeType } from '../models/PokeType.js';
-import { addTeamSchema } from '@pokedex/shared/schemas/team.schema.js';
+import { addTeamSchema, updateTeamSchema } from '@pokedex/shared/schemas/team.schema.js';
 
 export class TeamController {
 	public getMyTeams = controllerWrapper(async (req: Request, res: Response) => {
@@ -69,5 +69,31 @@ export class TeamController {
 		await team.destroy();
 
 		return res.status(200).json({ message: "L'équipe a été supprimée." });
+	});
+
+	public updateTeam = controllerWrapper(async (req: Request, res: Response) => {
+		const userId = req.user?.id;
+
+		const { id } = req.params;
+		const teamId = Number(id);
+
+		const updatedData = await updateTeamSchema.parseAsync(req.body);
+
+		const team = await Team.findByPk(teamId);
+
+		if (!team) {
+			return res.status(404).json({ message: "Cette équipe n'existe pas" });
+		}
+
+		if (team.profile_id != userId) {
+			return res.status(403).json({
+				message: "Accès refusé : vous n'êtes pas le propriétaire de cette équipe"
+			});
+		}
+
+		team.set(updatedData);
+		await team.save();
+
+		return res.status(200).json(team);
 	});
 }
