@@ -31,8 +31,12 @@ export async function requestApi<T, R>({
 		onLoading?.(true);
 		const response = await request(validation.data);
 		onSuccess?.(response);
-	} catch (err: any) {
-		const msg = err.response?.data?.message || err.message || 'Erreur inconnue';
+	} catch (err: unknown) {
+		let msg = 'Erreur inconnue';
+
+		if (err && typeof err === 'object' && 'message' in err) {
+			msg = (err as { message: string }).message;
+		}
 		onError?.(msg);
 	} finally {
 		onLoading?.(false);

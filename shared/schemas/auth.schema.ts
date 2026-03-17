@@ -12,11 +12,17 @@ export const registerSchema = z
 		path: ['confirmPassword']
 	});
 
-export type RegisterInput = z.infer<typeof registerSchema>;
-
 export const loginSchema = z.object({
 	email: z.string().email("Format d'email invalide"),
 	password: z.string().min(8, 'Le mot de passe doit faire 8 caractères min.')
 });
 
+export const userSchema = z.object({
+	user: z.object({
+		id: z.number()
+	})
+});
+
+export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
+export type User = z.infer<typeof userSchema>;
