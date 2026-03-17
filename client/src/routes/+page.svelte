@@ -23,11 +23,11 @@
 		>
 			Équipes
 		</a>
-		<a
+		<!-- <a
 			href="/types"
 			class="w-full sm:w-auto text-center bg-red-500 text-white px-6 py-3 rounded-xl shadow hover:bg-red-600 transition"
 		>
 			Types
-		</a>
+		</a> -->
 	</div>
 </div>
