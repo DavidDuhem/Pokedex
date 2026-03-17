@@ -1,10 +1,28 @@
 <script lang="ts">
-	let name = $state<number | null>(null);
-	let description = $state<number | null>(null);
+	import type { Team } from '@pokedex/shared/schemas/team.schema';
+	import { TeamService } from '../../../services/TeamService';
 
-	function handleSubmit(event: SubmitEvent) {
+	let { teams = $bindable() }: { teams: Team[] } = $props();
+
+	let name = $state('');
+	let description = $state('');
+
+	async function handleSubmit(event: SubmitEvent) {
 		event.preventDefault();
-		// Handle new team submit
+		if (!name || name.trim() === '') return;
+
+		const teamToAdd = {
+			name: name,
+			description: description || 'Aucune description'
+		};
+
+		const res = await TeamService.addTeam(teamToAdd, fetch);
+		if (res) {
+			teams = [...teams, res.team as Team];
+
+			name = '';
+			description = '';
+		}
 	}
 </script>
 
@@ -16,7 +34,7 @@
 			type="text"
 			placeholder="Nom de l'équipe"
 			bind:value={name}
-			class="w-full px-4 py-2 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+			class="w-full px-4 py-2 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-black"
 		/>
 	</div>
 	<div class="flex-1">
@@ -26,7 +44,7 @@
 			type="text"
 			placeholder="Description"
 			bind:value={description}
-			class="w-full px-4 py-2 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+			class="w-full px-4 py-2 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-black"
 		/>
 	</div>
 	<button

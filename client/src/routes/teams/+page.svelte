@@ -4,15 +4,16 @@
 	import { auth } from '$lib/stores/auth-store.svelte.js';
 	import { page } from '$app/state';
 	import type { PageData } from './$types';
+	import type { Team } from '@pokedex/shared/schemas/team.schema';
 
 	let { data }: { data: PageData } = $props();
 
-	let localResponse = $state<PageData['apiResponse']>(null);
+	let teams = $state<Team[]>([]);
 	$effect(() => {
-		localResponse = data.apiResponse;
+		if (data.apiResponse) {
+			teams = data.apiResponse;
+		}
 	});
-
-	const teams = $derived(localResponse || []);
 	const isLoggedIn = $derived(auth.isLoggedIn || page.data.user !== null);
 </script>
 
@@ -20,7 +21,7 @@
 	<h1 class="text-3xl font-bold text-red-600 mb-4">Mes Équipes</h1>
 
 	{#if isLoggedIn}
-		<TeamForm />
+		<TeamForm bind:teams />
 
 		{#if data.error}
 			<p>Erreur : {data.error}</p>

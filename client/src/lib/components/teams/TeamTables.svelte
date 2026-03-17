@@ -4,7 +4,7 @@
 	import { page } from '$app/state';
 
 	let {
-		teams = []
+		teams = $bindable([])
 	}: {
 		teams: Team[];
 	} = $props();

@@ -6,5 +6,6 @@ const router = Router();
 const teamController = new TeamController();
 
 router.get('/', isAuthenticated, teamController.getMyTeams);
+router.post('/', isAuthenticated, teamController.addTeam);
 
 export default router;
