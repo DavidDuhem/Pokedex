@@ -3,6 +3,12 @@ import { z } from 'zod';
 export const pokemonSchema = z.object({
 	id: z.number(),
 	name: z.string(),
+	hp: z.number(),
+	atk: z.number(),
+	def: z.number(),
+	atk_spe: z.number(),
+	def_spe: z.number(),
+	speed: z.number(),
 	totalVotes: z.preprocess((val) => Number(val), z.number()),
 	hasVoted: z.preprocess((val) => {
 		if (typeof val === 'boolean') return val;
@@ -13,7 +19,8 @@ export const pokemonSchema = z.object({
 		.array(
 			z.object({
 				id: z.number(),
-				name: z.string()
+				name: z.string(),
+				color: z.string()
 			})
 		)
 		.optional()
