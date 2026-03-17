@@ -1,8 +1,5 @@
+import type { User } from '@pokedex/shared/schemas/auth.schema';
 import { AuthService } from '../../services/AuthServices';
-
-interface User {
-	id: string;
-}
 
 class AuthStore {
 	user = $state<User | null>(null);
@@ -19,6 +16,7 @@ class AuthStore {
 
 	setUser(user: User | null) {
 		this.user = user;
+		this.isLoading = false;
 	}
 
 	async logout() {

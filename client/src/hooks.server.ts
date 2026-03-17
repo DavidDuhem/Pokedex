@@ -6,14 +6,25 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	if (sessionCookie) {
 		try {
-			const res = await AuthService.getCurrentUser(event.fetch, event.request.headers);
-			event.locals.user = res?.user || null;
+			const res = await AuthService.getCurrentUser(event.fetch, {
+				headers: { Cookie: `accessToken=${sessionCookie}` }
+			});
+
+			const rawRes = await event.fetch('http://api:5000/api/auth/me', {
+				headers: {
+					Cookie: `accessToken=${sessionCookie}`
+				}
+			});
+
+			const debugText = await rawRes.text();
+
+			if (res && res.user) {
+				event.locals.user = res.user;
+			} else {
+				event.locals.user = null;
+			}
 		} catch (err: any) {
 			event.locals.user = null;
-
-			if (err.status === 401) {
-				event.cookies.delete('accessToken', { path: '/' });
-			}
 		}
 	} else {
 		event.locals.user = null;

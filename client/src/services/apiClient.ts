@@ -9,11 +9,10 @@ async function request<T>(
 	options: RequestInit = {}
 ): Promise<T> {
 	const url = `${baseUrl}${endpoint}`;
-	console.log(`EXECUTING FETCH TO: ${url}`);
 
 	const config: RequestInit = {
-		credentials: 'include',
 		...options,
+		credentials: 'include',
 		headers: {
 			'Content-Type': 'application/json',
 			...options.headers
@@ -33,10 +32,15 @@ async function request<T>(
 }
 
 export const api = {
-	get: <T>(url: string, f: typeof fetch) => request<T>(url, f, { method: 'GET' }),
-	post: <T>(url: string, body: any, f: typeof fetch) =>
-		request<T>(url, f, { method: 'POST', body: JSON.stringify(body) }),
-	put: <T>(url: string, body: any, f: typeof fetch) =>
-		request<T>(url, f, { method: 'PUT', body: JSON.stringify(body) }),
-	delete: <T>(url: string, f: typeof fetch) => request<T>(url, f, { method: 'DELETE' })
+	get: <T>(url: string, f: typeof fetch, options: RequestInit = {}) =>
+		request<T>(url, f, { ...options, method: 'GET' }),
+
+	post: <T>(url: string, body: any, f: typeof fetch, options: RequestInit = {}) =>
+		request<T>(url, f, { ...options, method: 'POST', body: JSON.stringify(body) }),
+
+	put: <T>(url: string, body: any, f: typeof fetch, options: RequestInit = {}) =>
+		request<T>(url, f, { ...options, method: 'PUT', body: JSON.stringify(body) }),
+
+	delete: <T>(url: string, f: typeof fetch, options: RequestInit = {}) =>
+		request<T>(url, f, { ...options, method: 'DELETE' })
 };

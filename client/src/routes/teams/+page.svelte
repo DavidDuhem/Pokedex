@@ -1,6 +1,8 @@
 <script lang="ts">
 	import TeamForm from '$components/teams/TeamForm.svelte';
 	import TeamTables from '$components/teams/TeamTables.svelte';
+	import { auth } from '$lib/stores/auth-store.svelte.js';
+	import { page } from '$app/state';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -11,18 +13,23 @@
 	});
 
 	const teams = $derived(localResponse || []);
+	const isLoggedIn = $derived(auth.isLoggedIn || page.data.user !== null);
 </script>
 
 <div class="max-w-4xl mx-auto px-4">
 	<h1 class="text-3xl font-bold text-red-600 mb-4">Mes Équipes</h1>
 
-	<TeamForm />
+	{#if isLoggedIn}
+		<TeamForm />
 
-	{#if data.error}
-		<p>Erreur : {data.error}</p>
-	{:else if teams.length === 0}
-		<p>Aucune équipe trouvée.</p>
+		{#if data.error}
+			<p>Erreur : {data.error}</p>
+		{:else if teams.length === 0}
+			<p>Aucune équipe trouvée.</p>
+		{:else}
+			<TeamTables {teams} />
+		{/if}
 	{:else}
-		<TeamTables {teams} />
+		<p class="text-lg text-black">Vous devez être connecté pour voir vos équipes.</p>
 	{/if}
 </div>

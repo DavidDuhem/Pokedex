@@ -18,11 +18,16 @@ export const loginSchema = z.object({
 });
 
 export const userSchema = z.object({
-	user: z.object({
-		id: z.number()
-	})
+	id: z.number(),
+	email: z.string().email().optional(),
+	username: z.string().optional()
+});
+
+export const apiUserResponseSchema = z.object({
+	user: userSchema
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
 export type User = z.infer<typeof userSchema>;
+export type ApiUserResponse = z.infer<typeof apiUserResponseSchema>;

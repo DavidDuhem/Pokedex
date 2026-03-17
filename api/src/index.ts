@@ -11,7 +11,7 @@ const allowedOrigins = process.env.AlLOWED_ORIGIN || 'http://localhost:3004';
 
 app.use(
 	cors({
-		origin: true, // Autorise tout dynamiquement
+		origin: ['http://localhost:5173', 'http://localhost:3004'],
 		credentials: true
 	})
 );
