@@ -11,11 +11,9 @@ async function seed() {
 
 		console.log('🚧 Creating Test Auth & Profile ...');
 
-		const hashedPass = await argon2.hash('test1234', { type: argon2.argon2i });
-
 		const auth1 = await Auth.create({
 			email: 'david@test.com',
-			password: hashedPass
+			password: 'test1234'
 		});
 
 		const profile = await Profile.create({
@@ -25,7 +23,7 @@ async function seed() {
 
 		const auth2 = await Auth.create({
 			email: 'david2@test.com',
-			password: hashedPass
+			password: 'test1234'
 		});
 
 		const profile2 = await Profile.create({
