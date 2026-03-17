@@ -12,9 +12,19 @@ export const registerSchema = z
 		path: ['confirmPassword']
 	});
 
+export const registerApiResponseSchema = z.object({
+	message: z.string(),
+	user: z.object({ id: z.number() })
+});
+
 export const loginSchema = z.object({
 	email: z.string().email("Format d'email invalide"),
 	password: z.string().min(8, 'Le mot de passe doit faire 8 caractères min.')
+});
+
+export const loginApiResponseSchema = z.object({
+	message: z.string(),
+	user: z.object({ id: z.number() })
 });
 
 export const userSchema = z.object({
@@ -28,6 +38,8 @@ export const apiUserResponseSchema = z.object({
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;
+export type RegisterApiResponse = z.infer<typeof registerApiResponseSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
 export type User = z.infer<typeof userSchema>;
 export type ApiUserResponse = z.infer<typeof apiUserResponseSchema>;
+export type LoginApiResponse = z.infer<typeof loginApiResponseSchema>;

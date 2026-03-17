@@ -24,9 +24,9 @@
 		<TeamForm bind:teams />
 
 		{#if data.error}
-			<p>Erreur : {data.error}</p>
+			<p class="text-black">Erreur : {data.error}</p>
 		{:else if teams.length === 0}
-			<p>Aucune équipe trouvée.</p>
+			<p class="text-black">Aucune équipe trouvée.</p>
 		{:else}
 			<TeamTables {teams} />
 		{/if}

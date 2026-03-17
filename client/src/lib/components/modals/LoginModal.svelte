@@ -1,9 +1,17 @@
 <script lang="ts">
 	import { AuthService } from '../../../services/AuthServices';
-	import { registerSchema, loginSchema } from '@pokedex/shared/schemas/auth.schema';
+	import {
+		registerSchema,
+		loginSchema,
+		type LoginApiResponse,
+		type LoginInput,
+		type RegisterInput,
+		type RegisterApiResponse
+	} from '@pokedex/shared/schemas/auth.schema';
 	import BaseModal from './BaseModal.svelte';
 	import { requestApi } from '../../../services/utils';
 	import { auth } from '$stores/auth-store.svelte';
+	import { invalidateAll } from '$app/navigation';
 
 	let { onClose } = $props<{ onClose: () => void }>();
 
@@ -28,21 +36,22 @@
 		isLoading = true;
 
 		if (isLogin) {
-			await requestApi({
+			await requestApi<LoginInput, LoginApiResponse>({
 				schema: loginSchema,
 				data: { email, password },
 				request: (data) => AuthService.login(data),
 				onLoading: (val) => (isLoading = val),
 				onError: (msg) => (errorMessage = msg),
-				onSuccess: (res) => {
+				onSuccess: async (res) => {
 					if (res && res.user) {
 						auth.login(res.user);
 					}
+					await invalidateAll();
 					onClose();
 				}
 			});
 		} else {
-			await requestApi({
+			await requestApi<RegisterInput, RegisterApiResponse>({
 				schema: registerSchema,
 				data: { email, username, password, confirmPassword },
 				request: (data) => AuthService.register(data),

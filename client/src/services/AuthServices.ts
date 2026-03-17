@@ -1,14 +1,17 @@
 import { api } from './apiClient';
 import type {
-	LoginInput,
 	RegisterInput,
+	LoginInput,
+	LoginApiResponse,
+	RegisterApiResponse,
 	ApiUserResponse
 } from '@pokedex/shared/schemas/auth.schema';
 
 export const AuthService = {
-	register: (data: RegisterInput, f: typeof fetch = fetch) => api.post('/auth/register', data, f),
+	register: (data: RegisterInput, f: typeof fetch = fetch): Promise<RegisterApiResponse> =>
+		api.post('/auth/register', data, f),
 
-	login: (credentials: LoginInput, f: typeof fetch = fetch) =>
+	login: (credentials: LoginInput, f: typeof fetch = fetch): Promise<LoginApiResponse> =>
 		api.post('/auth/login', credentials, f),
 
 	async getCurrentUser(f: typeof fetch = fetch, options: RequestInit = {}) {

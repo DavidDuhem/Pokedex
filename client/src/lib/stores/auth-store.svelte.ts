@@ -1,5 +1,6 @@
 import type { User } from '@pokedex/shared/schemas/auth.schema';
 import { AuthService } from '../../services/AuthServices';
+import { invalidateAll } from '$app/navigation';
 
 class AuthStore {
 	user = $state<User | null>(null);
@@ -28,6 +29,7 @@ class AuthStore {
 		} finally {
 			this.user = null;
 			this.isLoading = false;
+			await invalidateAll();
 		}
 	}
 }
