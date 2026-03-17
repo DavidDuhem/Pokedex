@@ -28,8 +28,6 @@ export class TeamController {
 			order: [['createdAt', 'DESC']]
 		});
 
-		if (!teams) return res.status(404).json({ error: 'Équipes introuvables' });
-
 		res.json(teams);
 	});
 }

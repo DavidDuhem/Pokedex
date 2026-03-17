@@ -9,6 +9,7 @@ async function request<T>(
 	options: RequestInit = {}
 ): Promise<T> {
 	const url = `${baseUrl}${endpoint}`;
+	console.log(`EXECUTING FETCH TO: ${url}`);
 
 	const config: RequestInit = {
 		credentials: 'include',
