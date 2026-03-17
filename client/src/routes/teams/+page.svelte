@@ -28,7 +28,7 @@
 		{:else if teams.length === 0}
 			<p class="text-black">Aucune équipe trouvée.</p>
 		{:else}
-			<TeamTables {teams} />
+			<TeamTables bind:teams />
 		{/if}
 	{:else}
 		<p class="text-lg text-black">Vous devez être connecté pour voir vos équipes.</p>

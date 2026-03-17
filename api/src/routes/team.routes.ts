@@ -7,5 +7,6 @@ const teamController = new TeamController();
 
 router.get('/', isAuthenticated, teamController.getMyTeams);
 router.post('/', isAuthenticated, teamController.addTeam);
+router.delete('/:id', isAuthenticated, teamController.deleteTeam);
 
 export default router;

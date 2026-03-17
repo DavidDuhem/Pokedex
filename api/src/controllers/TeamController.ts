@@ -47,4 +47,27 @@ export class TeamController {
 			team: newTeam
 		});
 	});
+
+	public deleteTeam = controllerWrapper(async (req: Request, res: Response) => {
+		const userId = req.user?.id;
+
+		const { id } = req.params;
+		const teamId = Number(id);
+
+		const team = await Team.findByPk(teamId);
+
+		if (!team) {
+			return res.status(404).json({ message: "Cette équipe n'existe pas" });
+		}
+
+		if (team.profile_id != userId) {
+			return res.status(403).json({
+				message: "Accès refusé : vous n'êtes pas le propriétaire de cette équipe"
+			});
+		}
+
+		await team.destroy();
+
+		return res.status(200).json({ message: "L'équipe a été supprimée." });
+	});
 }

@@ -2,6 +2,8 @@
 	import type { Team } from '@pokedex/shared/schemas/team.schema';
 	import { auth } from '$stores/auth-store.svelte';
 	import { page } from '$app/state';
+	import { TeamService } from '../../../services/TeamService';
+	import { invalidateAll } from '$app/navigation';
 
 	let {
 		teams = $bindable([])
@@ -35,14 +37,17 @@
 		deletingId = null;
 	}
 
-	async function handleConfirmEdit(id: number) {
+	async function handleConfirmEdit(teamId: number) {
 		// Handle confirm edit
 		editingId = null;
 	}
 
-	async function handleConfirmDelete(id: number) {
-		// Handle confirm delete
-		deletingId = null;
+	async function handleConfirmDelete(teamId: number) {
+		const res = await TeamService.deleteTeam(teamId, fetch);
+		if (res) {
+			teams = teams.filter((team) => team.id !== teamId);
+			deletingId = null;
+		}
 	}
 </script>
 
@@ -94,13 +99,13 @@
 							{#if isLoggedIn && currentUserId === team.profile_id}
 								{#if editingId === team.id}
 									<button
-										class="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 transition"
+										class="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 transition cursor-pointer"
 										onclick={() => handleConfirmEdit(team.id)}
 									>
 										✅
 									</button>
 									<button
-										class="bg-gray-400 text-black px-2 py-1 rounded hover:bg-gray-500 transition"
+										class="bg-gray-400 text-black px-2 py-1 rounded hover:bg-gray-500 transition cursor-pointer"
 										onclick={cancel}
 									>
 										✖️
@@ -108,27 +113,27 @@
 								{/if}
 								{#if editingId !== team.id && deletingId !== team.id}
 									<a
-										class="bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-700 transition"
+										class="bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-700 transition cursor-pointer"
 										href="/teams/{team.id}"
 									>
 										👁️</a
 									>
 									<button
 										onclick={() => startEdit(team)}
-										class="bg-red-100 text-red-600 px-2 py-1 rounded hover:bg-red-200 transition"
+										class="bg-red-100 text-red-600 px-2 py-1 rounded hover:bg-red-200 transition cursor-pointer"
 									>
 										📝
 									</button>
 								{/if}
 								{#if deletingId === team.id}
 									<button
-										class="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 transition"
+										class="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 transition cursor-pointer"
 										onclick={() => handleConfirmDelete(team.id)}
 									>
 										✅
 									</button>
 									<button
-										class="bg-gray-400 text-black px-2 py-1 rounded hover:bg-gray-500 transition"
+										class="bg-gray-400 text-black px-2 py-1 rounded hover:bg-gray-500 transition cursor-pointer"
 										onclick={cancel}
 									>
 										✖️
@@ -137,7 +142,7 @@
 								{#if deletingId !== team.id && editingId !== team.id}
 									<button
 										onclick={() => startDelete(team.id)}
-										class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 transition"
+										class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 transition cursor-pointer"
 									>
 										🗑️
 									</button>
@@ -151,7 +156,7 @@
                 {/if} -->
 							{:else}
 								<a
-									class="bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-700 transition"
+									class="bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-700 transition cursor-pointer"
 									href="/teams/{team.id}"
 								>
 									👁️</a

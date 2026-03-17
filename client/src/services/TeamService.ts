@@ -5,5 +5,8 @@ export const TeamService = {
 	getMyTeams: (svelteFetch: typeof fetch) => api.get<Team[]>('/teams', svelteFetch),
 
 	addTeam: (teamToAdd: Partial<Team>, svelteFetch: typeof fetch) =>
-		api.post<CreateTeamResponse>('/teams', teamToAdd, svelteFetch)
+		api.post<CreateTeamResponse>('/teams', teamToAdd, svelteFetch),
+
+	deleteTeam: (teamId: number, svelteFetch: typeof fetch) =>
+		api.delete(`/teams/${teamId}`, svelteFetch)
 };
