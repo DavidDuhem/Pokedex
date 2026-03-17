@@ -2,10 +2,9 @@
 
 ## Presentation
 
-The Pokédex is a backend focused project made to showcase my ability to build API and efficiently communicate with the front-end. This project was made in 5 days.    
+The Pokédex is a backend focused project made to showcase my ability to build API and efficiently communicate with the front-end. This project was made in 5 days.
 
-The features include : Authentification, API calls to fetch, create, update and delete teams, adding pokemon to a team we own, pagination in pokemon list and search system with filters.  
-
+The features include : Authentification, API calls to fetch, create, update and delete teams, adding pokemon to a team we own, pagination in pokemon list and search system with filters.
 
 ## Demo
 
@@ -14,7 +13,6 @@ Demo soon
 <!-- You can access a demo here, the API and Database might take around 10 secondes to wake up: -->
 
 <!-- [Access the demo](https://web-pokedex-chi.vercel.app/) -->
-
 
 ## Overview
 
