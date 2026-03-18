@@ -47,7 +47,7 @@
 	<span class="mr-3 ml-3">
 		{#each nbPages as page}
 			<a
-				href={`?page=${page}`}
+				href={`/pokedex/pokemon?page=${page}`}
 				rel="external"
 				class="text-red-600 hover:underline px-1 {page === currentPage
 					? 'font-bold underline'
@@ -63,7 +63,7 @@
 	<span>
 		{#if hasNextPage}
 			<a
-				href={`?page=${currentPage + 1}`}
+				href={`/pokedex/pokemon?page=${currentPage + 1}`}
 				rel="external"
 				class="text-red-600 hover:underline px-2 font-bold"
 			>
