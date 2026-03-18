@@ -7,11 +7,19 @@ import { router } from './router.js';
 
 const app = express();
 
-const allowedOrigins = process.env.AlLOWED_ORIGIN || 'http://localhost:3004';
+const allowedOrigins = process.env.ALLOWED_ORIGIN
+	? process.env.ALLOWED_ORIGIN.split(',')
+	: ['http://localhost:3004', 'http://localhost:5173'];
 
 app.use(
 	cors({
-		origin: ['http://localhost:5173', 'http://localhost:3004'],
+		origin: (origin, callback) => {
+			if (!origin || allowedOrigins.includes(origin)) {
+				callback(null, true);
+			} else {
+				callback(new Error('Not allowed by CORS'));
+			}
+		},
 		credentials: true
 	})
 );
@@ -48,8 +56,8 @@ app.use((req: Request, res: Response) => {
 	res.status(404).json({ message: 'Route non trouvée' });
 });
 
-const PORT = process.env.API_PORT || 5000;
+const PORT = Number(process.env.API_PORT) || 5005;
 
-app.listen(PORT, () => {
-	console.log(`🚀 Serveur API démarré sur http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+	console.log(`🚀 Serveur API démarré sur le port ${PORT}`);
 });
