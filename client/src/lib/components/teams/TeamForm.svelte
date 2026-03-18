@@ -49,7 +49,7 @@
 	</div>
 	<button
 		type="submit"
-		class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition h-fit"
+		class="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition h-fit cursor-pointer"
 	>
 		Ajouter
 	</button>

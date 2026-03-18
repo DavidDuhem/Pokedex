@@ -1,6 +1,8 @@
 <script lang="ts">
 	let { title, onClose, children } = $props();
 
+	let mouseDownOnBackdrop = false;
+
 	function handleKeydown(e: KeyboardEvent) {
 		if (e.key === 'Escape') {
 			onClose();
@@ -11,26 +13,45 @@
 			onClose();
 		}
 	}
+
+	function handleMouseDown(e: MouseEvent) {
+		// On enregistre SI le clic a commencé sur le fond noir
+		mouseDownOnBackdrop = e.target === e.currentTarget;
+	}
+
+	function handleMouseUp(e: MouseEvent) {
+		// On ne ferme QUE si le clic a commencé sur le fond noir
+		// ET s'est terminé sur le fond noir
+		if (mouseDownOnBackdrop && e.target === e.currentTarget) {
+			onClose();
+		}
+		// On réinitialise toujours
+		mouseDownOnBackdrop = false;
+	}
+
+	function handleInternalKeydown(e: KeyboardEvent) {
+		if (e.key === 'Escape') return;
+		e.stopPropagation();
+	}
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
 
 <div
-	class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
-	onclick={onClose}
-	onkeydown={handleKeydown}
+	class="fixed inset-0 z-50 flex justify-center bg-black/60 p-4 backdrop-blur-sm overflow-y-auto"
+	onmousedown={handleMouseDown}
+	onmouseup={handleMouseUp}
 	role="button"
 	tabindex="0"
-	aria-label="Fermer la fenêtre"
 >
 	<div
-		class="relative w-full max-w-lg animate-pop-in rounded-2xl bg-white p-6 shadow-2xl"
-		onclick={(e) => e.stopPropagation()}
-		onkeydown={(e) => e.stopPropagation()}
+		class="relative my-auto w-full max-w-lg animate-pop-in rounded-2xl bg-white p-6 shadow-2xl outline-none"
+		onmousedown={(e) => e.stopPropagation()}
+		onmouseup={(e) => e.stopPropagation()}
+		onkeydown={handleInternalKeydown}
 		role="dialog"
 		aria-modal="true"
-		aria-labelledby="modal-title"
-		tabindex="-1"
+		tabindex="0"
 	>
 		<button
 			type="button"

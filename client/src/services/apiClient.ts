@@ -1,4 +1,5 @@
 import { env as publicEnv } from '$env/dynamic/public';
+import { auth } from '$stores/auth-store.svelte';
 
 const isServer = typeof window === 'undefined';
 const baseUrl = isServer ? 'http://api:5000/api' : publicEnv.PUBLIC_API_URL;
@@ -20,6 +21,12 @@ async function request<T>(
 	};
 
 	const response = await svelteFetch(url, config);
+
+	// Deconnexion auto
+	if (response.status === 401 && !isServer) {
+		auth.setUser(null);
+		console.warn("Session expirée détectée par l'API Client.");
+	}
 
 	if (!response.ok) {
 		throw {

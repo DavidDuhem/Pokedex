@@ -74,6 +74,7 @@
 			<input
 				type="email"
 				bind:value={email}
+				placeholder="Votre email"
 				required
 				class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-red-500 outline-none"
 			/>
@@ -85,6 +86,7 @@
 				<input
 					type="text"
 					bind:value={username}
+					placeholder="Votre pseudo"
 					required
 					class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-red-500 outline-none"
 				/>
@@ -96,6 +98,7 @@
 			<input
 				type="password"
 				bind:value={password}
+				placeholder="Votre mot de passe"
 				required
 				class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-red-500 outline-none"
 			/>
@@ -109,6 +112,7 @@
 				<input
 					type="password"
 					bind:value={confirmPassword}
+					placeholder="Confirmez votre mot de passe"
 					required
 					class="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-red-500 outline-none"
 				/>
