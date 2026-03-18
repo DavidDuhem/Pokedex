@@ -78,9 +78,9 @@
 							<span class="font-bold text-red-600">{pokemon.name}</span>
 							<div class="flex gap-2 mt-2">
 								{#each pokemon.types as type}
-									<a href={`/types/${type.id}`}>
-										<TypeTag {type} />
-									</a>
+									<!-- <a href={`/types/${type.id}`}> -->
+									<TypeTag {type} />
+									<!-- </a> -->
 								{/each}
 							</div>
 							<div class="flex flex-wrap items-start gap-5 mt-2">

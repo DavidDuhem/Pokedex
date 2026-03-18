@@ -1,4 +1,5 @@
 <script lang="ts">
+	import TypeTag from '$components/types/TypeTag.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -28,14 +29,15 @@
 
 					<div class="flex flex-wrap gap-2 mb-6">
 						{#each pokemon.types as type}
-							<a href={`/types/${type.id}?from=/pokemons/${pokemon.id}`}>
+							<TypeTag {type} />
+							<!-- <a href={`/types/${type.id}?from=/pokemons/${pokemon.id}`}>
 								<span
 									style="background-color: #{type.color}"
 									class="text-black rounded-full px-4 py-1 text-sm font-semibold capitalize select-none"
 								>
 									{type.name}
 								</span>
-							</a>
+							</a> -->
 						{/each}
 					</div>
 
