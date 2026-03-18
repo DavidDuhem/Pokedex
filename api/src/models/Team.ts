@@ -1,5 +1,13 @@
-import { DataTypes, Model, Optional } from 'sequelize';
+import {
+	DataTypes,
+	Model,
+	Optional,
+	HasManyGetAssociationsMixin,
+	HasManyRemoveAssociationMixin,
+	HasManyAddAssociationMixin
+} from 'sequelize';
 import { sequelize } from '../config/db.js';
+import { Pokemon } from './Pokemon.js';
 
 interface TeamAttributes {
 	id: number;
@@ -15,6 +23,10 @@ export class Team extends Model<TeamAttributes, TeamCreationAttributes> implemen
 	declare name: string;
 	declare description: string;
 	declare profile_id: number;
+
+	declare getPokemons: HasManyGetAssociationsMixin<Pokemon>;
+	declare removePokemon: HasManyRemoveAssociationMixin<Pokemon, number>;
+	declare addPokemon: HasManyAddAssociationMixin<Pokemon, number>;
 }
 
 Team.init(

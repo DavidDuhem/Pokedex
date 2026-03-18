@@ -107,6 +107,24 @@ export class TeamController {
 		return res.status(200).json({ message: "L'équipe a été supprimée." });
 	});
 
+	public removePokemonFromTeam = controllerWrapper(async (req: Request, res: Response) => {
+		const userId = req.user?.id;
+		const teamId = Number(req.params.teamId);
+		const pokemonId = Number(req.params.pokemonId);
+
+		const team = await Team.findOne({
+			where: { id: teamId, profile_id: userId }
+		});
+
+		if (!team) {
+			return res.status(404).json({ message: 'Équipe non trouvée ou accès refusé.' });
+		}
+
+		await team.removePokemon(pokemonId);
+
+		res.json({ message: "Pokémon retiré de l'équipe avec succès." });
+	});
+
 	public updateTeam = controllerWrapper(async (req: Request, res: Response) => {
 		const userId = req.user?.id;
 
