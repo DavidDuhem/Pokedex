@@ -7,8 +7,9 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		paths: {
-            		base: process.env.NODE_ENV === 'production' ? '/pokedex' : '',
-        	},
+			base: process.env.NODE_ENV === 'production' ? '/pokedex' : '',
+			relative: true
+		},
 		alias: {
 			$components: 'src/lib/components',
 			'@pokedex/shared': '../shared',

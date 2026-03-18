@@ -12,13 +12,13 @@
 
 	<div class="flex flex-col sm:flex-row gap-4">
 		<a
-			href="/pokemon"
+			href="pokemon"
 			class="w-full sm:w-auto text-center bg-red-500 text-white px-6 py-3 rounded-xl shadow hover:bg-red-600 transition"
 		>
 			Pokémons
 		</a>
 		<a
-			href="/teams"
+			href="teams"
 			class="w-full sm:w-auto text-center bg-red-500 text-white px-6 py-3 rounded-xl shadow hover:bg-red-600 transition"
 		>
 			Équipes
