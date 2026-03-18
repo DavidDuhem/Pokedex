@@ -99,7 +99,7 @@
 								class="w-full max-w-full px-2 py-1 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
 							/>
 						{:else}
-							<a href="teams/{team.id}" class="link">{team.name}</a>
+							<a href="/teams/{team.id}" class="link">{team.name}</a>
 						{/if}
 					</td>
 					<td class="px-4 py-3 text-gray-600 whitespace-normal wrap-break-word">
@@ -134,7 +134,7 @@
 								{#if editingId !== team.id && deletingId !== team.id}
 									<a
 										class="bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-700 transition cursor-pointer"
-										href="teams/{team.id}"
+										href="/teams/{team.id}"
 									>
 										👁️</a
 									>
@@ -177,7 +177,7 @@
 							{:else}
 								<a
 									class="bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-700 transition cursor-pointer"
-									href="teams/{team.id}"
+									href="/teams/{team.id}"
 								>
 									👁️</a
 								>

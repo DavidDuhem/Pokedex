@@ -29,7 +29,7 @@
 
 <div class="relative">
 	<a
-		href={`pokemon/${pokemon.id}`}
+		href={`/pokemon/${pokemon.id}`}
 		class="border rounded p-2 flex flex-col items-center hover:shadow-lg transition cursor-pointer hover:bg-gray-200"
 	>
 		<span class="text-sm text-gray-500">#{pokemon.id}</span>
