@@ -22,7 +22,7 @@
 <div class="flex flex-col min-h-screen bg-white text-white">
 	<Header />
 
-	<main class="flex-1 flex flex-col">
+	<main class="flex-1 flex flex-col text-black">
 		{#if auth.isLoading}
 			<div
 				class="overlay-loading"

@@ -18,6 +18,9 @@ export const TeamService = {
 	deleteTeam: (teamId: number, svelteFetch: typeof fetch) =>
 		api.delete<{ message: string }>(`/teams/${teamId}`, svelteFetch),
 
+	removePokemonTeam: (teamId: number, pokemonId: number, svelteFetch: typeof fetch) =>
+		api.delete<{ message: string }>(`/teams/${teamId}/${pokemonId}`, svelteFetch),
+
 	updateTeam: (teamId: number, updatedData: UpdateTeamInput, svelteFetch: typeof fetch) =>
 		api.patch<Team>(`/teams/${teamId}`, updatedData, svelteFetch)
 };

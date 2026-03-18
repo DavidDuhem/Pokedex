@@ -5,6 +5,7 @@
 	import { page } from '$app/state';
 	import TypeTag from '$components/types/TypeTag.svelte';
 	import DeleteButton from '$components/basics/DeleteButton.svelte';
+	import { TeamService } from '../../../services/TeamService';
 
 	let { data }: { data: PageData } = $props();
 
@@ -20,18 +21,22 @@
 
 	async function confirmDelete(pokemonId: number) {
 		if (team) {
-			const id = team.id;
-			// await teamService.deleteTeamPokemon(id, pokemonId, fetch);
+			const teamId = team.id;
+			const res = await TeamService.removePokemonTeam(teamId, pokemonId, fetch);
 
-			const index = team.pokemons.findIndex((pokemon) => pokemon.id === pokemonId);
-			if (index !== -1) {
-				team.pokemons = [...team.pokemons.slice(0, index), ...team.pokemons.slice(index + 1)];
+			if (res) {
+				const index = team.pokemons.findIndex((pokemon) => pokemon.id === pokemonId);
+				if (index !== -1) {
+					team.pokemons = [...team.pokemons.slice(0, index), ...team.pokemons.slice(index + 1)];
+				}
 			}
 		}
 	}
 </script>
 
-{#if data.error}
+{#if !isLoggedIn}
+	<p class="text-center">Vous devez être connecté pour consulter une équipe.</p>
+{:else if data.error}
 	<p>Erreur : {data.error}</p>
 {:else if !team}
 	<p>Équipe non trouvée.</p>
