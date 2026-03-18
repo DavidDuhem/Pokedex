@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { pokemonSchema } from '@pokedex/shared/schemas/pokemon.schema';
+import { pokemonSchema } from './pokemon.schema.js';
 import { partial } from 'zod/v4-mini';
 
 const teamSchema = z.object({
@@ -8,7 +8,10 @@ const teamSchema = z.object({
 	description: z.string(),
 	profile_id: z.number(),
 	createdAt: z.string().datetime(),
-	updatedAt: z.string().datetime(),
+	updatedAt: z.string().datetime()
+});
+
+export const teamWithPkmSchema = teamSchema.extend({
 	pokemons: z.array(pokemonSchema)
 });
 
@@ -30,6 +33,7 @@ export const createTeamResponseSchema = z.object({
 
 export const Teams = z.array(teamSchema);
 export type Team = z.infer<typeof teamSchema>;
+export type TeamWithPokemons = z.infer<typeof teamWithPkmSchema>;
 export type AddTeamInput = z.infer<typeof addTeamSchema>;
 export type UpdateTeamInput = z.infer<typeof updateTeamSchema>;
 export type CreateTeamResponse = z.infer<typeof createTeamResponseSchema>;

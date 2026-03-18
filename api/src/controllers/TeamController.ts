@@ -11,6 +11,39 @@ export class TeamController {
 
 		const teams = await Team.findAll({
 			where: { profile_id: userId },
+			// include: [
+			// 	{
+			// 		model: Pokemon,
+			// 		as: 'pokemons',
+			// 		through: { attributes: [] },
+			// 		include: [
+			// 			{
+			// 				model: PokeType,
+			// 				as: 'types',
+			// 				through: { attributes: [] }
+			// 			}
+			// 		]
+			// 	}
+			// ],
+			order: [['createdAt', 'DESC']]
+		});
+
+		res.json(teams);
+	});
+
+	public getTeamPokemon = controllerWrapper(async (req: Request, res: Response) => {
+		const userId = req.user?.id;
+		const teamId = Number(req.params.id);
+
+		if (isNaN(teamId)) {
+			return res.status(400).json({ message: "L'ID de l'équipe est invalide." });
+		}
+
+		const team = await Team.findOne({
+			where: {
+				id: teamId,
+				profile_id: userId
+			},
 			include: [
 				{
 					model: Pokemon,
@@ -24,11 +57,14 @@ export class TeamController {
 						}
 					]
 				}
-			],
-			order: [['createdAt', 'DESC']]
+			]
 		});
 
-		res.json(teams);
+		if (!team) {
+			return res.status(404).json({ message: 'Équipe non trouvée' });
+		}
+
+		res.json(team);
 	});
 
 	public addTeam = controllerWrapper(async (req: Request, res: Response) => {
