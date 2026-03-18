@@ -3,6 +3,8 @@
 	import type { PageData } from './$types';
 	import { auth } from '$stores/auth-store.svelte';
 	import { page } from '$app/state';
+	import TypeTag from '$components/types/TypeTag.svelte';
+	import DeleteButton from '$components/basics/DeleteButton.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -15,6 +17,18 @@
 	});
 
 	const isLoggedIn = $derived(auth.isLoggedIn || page.data.user !== null);
+
+	async function confirmDelete(pokemonId: number) {
+		if (team) {
+			const id = team.id;
+			// await teamService.deleteTeamPokemon(id, pokemonId, fetch);
+
+			const index = team.pokemons.findIndex((pokemon) => pokemon.id === pokemonId);
+			if (index !== -1) {
+				team.pokemons = [...team.pokemons.slice(0, index), ...team.pokemons.slice(index + 1)];
+			}
+		}
+	}
 </script>
 
 {#if data.error}
@@ -57,7 +71,7 @@
 							<div class="flex gap-2 mt-2">
 								{#each pokemon.types as type}
 									<a href={`/types/${type.id}`}>
-										TO DO<!-- <TypeTag {type} /> -->
+										<TypeTag {type} />
 									</a>
 								{/each}
 							</div>
@@ -81,13 +95,14 @@
 							</div>
 						</div>
 						{#if isLoggedIn}
-							TODO DELETE BUTTON
-							<!-- <DeleteButton
+							<DeleteButton
 								id={pokemon.id}
 								onConfirm={confirmDelete}
 								startText="Retirer"
+								confirmText="Valider"
+								cancelText="Annuler"
 								withConfirmation={false}
-							/> -->
+							/>
 						{/if}
 					</li>
 				{/each}
