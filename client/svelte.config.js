@@ -8,7 +8,7 @@ const config = {
 		adapter: adapter(),
 		paths: {
 			base: process.env.NODE_ENV === 'production' ? '/pokedex' : '',
-			relative: true
+			relative: false
 		},
 		alias: {
 			$components: 'src/lib/components',

@@ -10,8 +10,8 @@
 			</h1>
 
 			<nav class="hidden md:flex space-x-6 text-slate-300 font-medium">
-				<a href="/pokemon" class="hover:text-white transition-colors">Pokémons</a>
-				<a href="/teams" class="hover:text-white transition-colors">Équipes</a>
+				<a href="pokemon" class="hover:text-white transition-colors">Pokémons</a>
+				<a href="teams" class="hover:text-white transition-colors">Équipes</a>
 				<!-- <a href="/types" class="hover:text-white transition-colors">Types</a> -->
 			</nav>
 		</div>
