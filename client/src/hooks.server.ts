@@ -2,21 +2,13 @@ import type { Handle } from '@sveltejs/kit';
 import { AuthService } from './services/AuthServices';
 
 export const handle: Handle = async ({ event, resolve }) => {
-	const sessionCookie = event.cookies.get('accessToken');
+	const sessionCookie = event.cookies.get('pokedex_access_token');
 
 	if (sessionCookie) {
 		try {
 			const res = await AuthService.getCurrentUser(event.fetch, {
-				headers: { Cookie: `accessToken=${sessionCookie}` }
+				headers: { Cookie: `pokedex_access_token=${sessionCookie}` }
 			});
-
-			const rawRes = await event.fetch('http://api:5000/api/auth/me', {
-				headers: {
-					Cookie: `accessToken=${sessionCookie}`
-				}
-			});
-
-			const debugText = await rawRes.text();
 
 			if (res && res.user) {
 				event.locals.user = res.user;
