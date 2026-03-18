@@ -31,15 +31,15 @@ export function sendCookies({ cookieName, res, token, maxAge }: Cookie) {
 		secure: process.env.NODE_ENV === 'production',
 		sameSite: 'lax',
 		maxAge: maxAge,
-		path: '/'
+		path: '/pokedex'
 	});
 }
 
 export function clearCookies(res: Response) {
-	res.cookie('accessToken', {
+	res.cookie('pokedex_access_token', {
 		httpOnly: true,
 		secure: process.env.NODE_ENV === 'production',
 		sameSite: 'lax',
-		path: '/'
+		path: '/pokedex'
 	});
 }

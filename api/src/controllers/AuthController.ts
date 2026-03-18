@@ -69,7 +69,7 @@ export class AuthController {
 		});
 
 		sendCookies({
-			cookieName: 'accessToken',
+			cookieName: 'pokedex_access_token',
 			res,
 			token: accessToken,
 			maxAge: 15 * 60 * 1000
