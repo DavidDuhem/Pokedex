@@ -12,6 +12,9 @@ export const PokemonService = {
 	getOne: (pokemonId: number, svelteFetch: typeof fetch) =>
 		api.get<Pokemon>(`/pokemon/${pokemonId}`, svelteFetch),
 
+	search: (search: string, svelteFetch: typeof fetch) =>
+		api.get<Pokemon[]>(`/pokemon/search?name=${search}`, svelteFetch),
+
 	toggleVote: (pokemonId: number, svelteFetch: typeof fetch = fetch) =>
 		api.post<PokemonVoteApiResponse>(`/pokemon/${pokemonId}/vote`, {}, svelteFetch)
 };

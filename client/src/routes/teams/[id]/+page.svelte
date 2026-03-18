@@ -6,10 +6,13 @@
 	import TypeTag from '$components/types/TypeTag.svelte';
 	import DeleteButton from '$components/basics/DeleteButton.svelte';
 	import { TeamService } from '../../../services/TeamService';
+	import AddTeamPokemonModal from '$components/modals/AddTeamPokemonModal.svelte';
 
 	let { data }: { data: PageData } = $props();
 
 	let team = $state<TeamWithPokemons>();
+
+	let showAddPokemonModal = $state(false);
 
 	$effect(() => {
 		if (data.apiResponse) {
@@ -119,7 +122,7 @@
 					<button
 						type="button"
 						class="w-full h-full flex flex-col justify-center items-center p-4 text-red-500 cursor-pointer hover:bg-red-50 transition focus:outline-none focus:ring-2 focus:ring-red-500"
-						// on:click={handleAddPopup}
+						onclick={() => (showAddPokemonModal = true)}
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -143,10 +146,4 @@
 	</div>
 {/if}
 
-<!-- <PopupTeamPokemon
-	{showPopup}
-	onClose={() => (showPopup = false)}
-	onValidate={confirmAddPokemon}
-	{onPokemonListUpdated}
-	pokemons={allPokemons}
-/> -->
+<AddTeamPokemonModal showModal={showAddPokemonModal} />

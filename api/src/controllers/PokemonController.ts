@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Pokemon, PokeType, Vote } from '../models/index.js';
 import { controllerWrapper } from '../utils/controllerWrapper.js';
-import { ProjectionAlias, Sequelize } from 'sequelize';
+import { ProjectionAlias, Sequelize, Op } from 'sequelize';
 
 export class PokemonController {
 	public getAll = controllerWrapper(async (req: Request, res: Response) => {
@@ -29,6 +29,26 @@ export class PokemonController {
 				pokemonPerPage: limit
 			}
 		});
+	});
+
+	public searchPokemon = controllerWrapper(async (req: Request, res: Response) => {
+		const { name } = req.query;
+
+		if (!name || typeof name !== 'string') {
+			return res.json([]);
+		}
+
+		const pokemons = await Pokemon.findAll({
+			where: {
+				name: {
+					[Op.iLike]: `%${name}%`
+				}
+			},
+			limit: 10,
+			include: [{ model: PokeType, as: 'types', through: { attributes: [] } }]
+		});
+
+		res.json(pokemons);
 	});
 
 	public getOne = controllerWrapper(async (req: Request, res: Response) => {
