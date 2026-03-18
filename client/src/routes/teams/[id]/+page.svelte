@@ -146,4 +146,4 @@
 	</div>
 {/if}
 
-<AddTeamPokemonModal showModal={showAddPokemonModal} />
+<AddTeamPokemonModal bind:showModal={showAddPokemonModal} {team} />

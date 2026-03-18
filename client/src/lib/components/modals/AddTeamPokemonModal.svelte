@@ -2,8 +2,9 @@
 	import BaseModal from './BaseModal.svelte';
 	import type { Pokemon } from '@pokedex/shared/schemas/pokemon.schema';
 	import { PokemonService } from '../../../services/PokemonService';
+	import { TeamService } from '../../../services/TeamService';
 
-	let { showModal = $bindable() } = $props();
+	let { showModal = $bindable(), team } = $props();
 
 	let search = $state('');
 	let results = $state<Pokemon[]>([]);
@@ -27,19 +28,20 @@
 	}
 
 	async function confirmAddPokemon() {
-		console.log(`Adding pokemon ${pokemonToAddId}`);
-		// if (team) {
-		// 	const teamId = team.id;
+		if (team) {
+			const teamId = team.id;
 
-		// await teamService.addTeamPokemon(id, { pokemonId }, fetch);
+			const res = await TeamService.addPokemonTeam(teamId, pokemonToAddId, fetch);
 
-		// const newPokemon = allPokemons.find((pokemon) => pokemon.id === pokemonId);
-		// if (newPokemon) {
-		// 	team.pokemons = [...team.pokemons, newPokemon];
-		// }
+			if (res) {
+				const newPokemon = results.find((pokemon) => pokemon.id === pokemonToAddId);
+				if (newPokemon) {
+					team.pokemons = [...team.pokemons, newPokemon];
+				}
 
-		showModal = false;
-		// }
+				showModal = false;
+			}
+		}
 	}
 </script>
 

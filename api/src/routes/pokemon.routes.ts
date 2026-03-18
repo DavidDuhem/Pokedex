@@ -9,6 +9,7 @@ router.get('/', tryAuthenticated, pokemonController.getAll);
 router.get('/search', pokemonController.searchPokemon);
 router.get('/:id', tryAuthenticated, pokemonController.getOne);
 
+router.post('/:id', isAuthenticated, pokemonController.toggleVote);
 router.post('/:id/vote', isAuthenticated, pokemonController.toggleVote);
 
 export default router;

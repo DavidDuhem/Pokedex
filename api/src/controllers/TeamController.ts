@@ -4,6 +4,7 @@ import { Team } from '../models/Team.js';
 import { Pokemon } from '../models/Pokemon.js';
 import { PokeType } from '../models/PokeType.js';
 import { addTeamSchema, updateTeamSchema } from '@pokedex/shared/schemas/team.schema.js';
+import { PokemonTeam } from '../models/PokemonTeam.js';
 
 export class TeamController {
 	public getMyTeams = controllerWrapper(async (req: Request, res: Response) => {
@@ -39,16 +40,18 @@ export class TeamController {
 			return res.status(400).json({ message: "L'ID de l'équipe est invalide." });
 		}
 
-		const team = await Team.findOne({
-			where: {
-				id: teamId,
-				profile_id: userId
-			},
+		const team = await Team.findOne({ where: { id: teamId, profile_id: userId } });
+
+		if (!team) {
+			return res.status(404).json({ message: 'Équipe non trouvée' });
+		}
+
+		const pokemonsInTeam = await PokemonTeam.findAll({
+			where: { team_id: teamId },
 			include: [
 				{
 					model: Pokemon,
-					as: 'pokemons',
-					through: { attributes: [] },
+					as: 'pokemon',
 					include: [
 						{
 							model: PokeType,
@@ -57,14 +60,24 @@ export class TeamController {
 						}
 					]
 				}
-			]
+			],
+			order: [['id', 'ASC']]
 		});
 
-		if (!team) {
-			return res.status(404).json({ message: 'Équipe non trouvée' });
-		}
+		const flattenedPokemons = pokemonsInTeam.map((item) => {
+			const pokemonData = item.pokemon?.toJSON();
 
-		res.json(team);
+			return {
+				...pokemonData,
+				pivotId: item.id,
+				team_id: item.team_id
+			};
+		});
+
+		res.json({
+			...team.toJSON(),
+			pokemons: flattenedPokemons
+		});
 	});
 
 	public addTeam = controllerWrapper(async (req: Request, res: Response) => {
@@ -123,6 +136,35 @@ export class TeamController {
 		await team.removePokemon(pokemonId);
 
 		res.json({ message: "Pokémon retiré de l'équipe avec succès." });
+	});
+
+	public addPokemonTeam = controllerWrapper(async (req: Request, res: Response) => {
+		const userId = req.user?.id;
+		const teamId = Number(req.params.id);
+		const { pokemonId } = req.body;
+
+		const team = await Team.findOne({
+			where: { id: teamId, profile_id: userId }
+		});
+
+		if (!team) {
+			return res.status(404).json({ message: 'Équipe non trouvée ou accès refusé.' });
+		}
+
+		const pokemonCount = await PokemonTeam.count({
+			where: { team_id: teamId }
+		});
+
+		if (pokemonCount >= 6) {
+			return res.status(400).json({ message: "L'équipe est déjà complète (6 Pokémon max)." });
+		}
+
+		await PokemonTeam.create({
+			team_id: teamId,
+			pokemon_id: pokemonId
+		});
+
+		res.json({ message: "Pokémon ajouté à l'équipe avec succès." });
 	});
 
 	public updateTeam = controllerWrapper(async (req: Request, res: Response) => {

@@ -8,6 +8,7 @@ const teamController = new TeamController();
 router.get('/', isAuthenticated, teamController.getMyTeams);
 router.get('/:id', isAuthenticated, teamController.getTeamPokemon);
 router.post('/', isAuthenticated, teamController.addTeam);
+router.post('/:id', isAuthenticated, teamController.addPokemonTeam);
 router.patch('/:id', isAuthenticated, teamController.updateTeam);
 router.delete('/:id', isAuthenticated, teamController.deleteTeam);
 router.delete('/:teamId/:pokemonId', isAuthenticated, teamController.removePokemonFromTeam);

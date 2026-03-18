@@ -4,7 +4,8 @@ import {
 	Optional,
 	HasManyGetAssociationsMixin,
 	HasManyRemoveAssociationMixin,
-	HasManyAddAssociationMixin
+	HasManyAddAssociationMixin,
+	NonAttribute
 } from 'sequelize';
 import { sequelize } from '../config/db.js';
 import { Pokemon } from './Pokemon.js';
@@ -23,6 +24,8 @@ export class Team extends Model<TeamAttributes, TeamCreationAttributes> implemen
 	declare name: string;
 	declare description: string;
 	declare profile_id: number;
+
+	declare pokemons?: NonAttribute<Pokemon[]>;
 
 	declare getPokemons: HasManyGetAssociationsMixin<Pokemon>;
 	declare removePokemon: HasManyRemoveAssociationMixin<Pokemon, number>;

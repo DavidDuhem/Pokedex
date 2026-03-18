@@ -31,6 +31,8 @@ Team.belongsToMany(Pokemon, {
 	foreignKey: 'team_id'
 });
 
+PokemonTeam.belongsTo(Team, { foreignKey: 'team_id', as: 'team' });
+
 // Relation Many-To-Many : Pokemon <-> Profile
 Pokemon.belongsToMany(Profile, {
 	through: Vote,

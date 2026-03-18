@@ -1,5 +1,6 @@
-import { DataTypes, Model, Optional } from 'sequelize';
+import { DataTypes, Model, NonAttribute, Optional } from 'sequelize';
 import { sequelize } from '../config/db.js';
+import { Pokemon } from './Pokemon.js';
 
 interface PokemonTeamAttributes {
 	id: number;
@@ -16,6 +17,8 @@ export class PokemonTeam
 	declare id: number;
 	declare pokemon_id: number;
 	declare team_id: number;
+
+	declare pokemon?: NonAttribute<Pokemon>;
 }
 
 PokemonTeam.init(
