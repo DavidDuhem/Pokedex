@@ -6,7 +6,7 @@
 	<div class="container mx-auto flex justify-between items-center">
 		<div class="flex items-center gap-8">
 			<h1 class="text-2xl font-bold text-red-500 tracking-tighter">
-				<a href="/">POKÉ<span class="text-white">DEX</span></a>
+				<a href="./">POKÉ<span class="text-white">DEX</span></a>
 			</h1>
 
 			<nav class="hidden md:flex space-x-6 text-slate-300 font-medium">

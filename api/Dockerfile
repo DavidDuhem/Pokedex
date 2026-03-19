@@ -5,7 +5,7 @@ COPY shared/package*.json ./shared/
 COPY api/package*.json ./api/
 RUN npm install
 
-FROM base AS development
+FROM base AS builder
 COPY shared/ ./shared/
 COPY api/ ./api/
 RUN npm run build --workspace=api
