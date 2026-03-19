@@ -71,116 +71,119 @@
 	}
 </script>
 
-<div class="rounded-xl shadow-md w-full max-w-4xl mx-auto">
-	<table class="w-full border-collapse table-fixed">
-		<thead class="bg-red-500 text-white">
+<div class="rounded-xl shadow-md w-full max-w-4xl mx-auto overflow-hidden">
+	<table class="w-full border-collapse">
+		<thead class="hidden md:table-header-group bg-red-500 text-white">
 			<tr>
-				<th class="text-left px-4 py-3 w-[20%]"></th>
+				<th class="text-left px-4 py-3 w-[15%]">Aperçu</th>
 				<th class="text-left px-4 py-3 w-[20%]">Nom</th>
-				<th class="text-left px-4 py-3 w-[50%]">Description</th>
-				<th class="text-center px-4 py-3 w-[30%]">Actions</th>
+				<th class="text-left px-4 py-3 w-[45%]">Description</th>
+				<th class="text-center px-4 py-3 w-[20%]">Actions</th>
 			</tr>
 		</thead>
 		<tbody class="bg-white divide-y divide-red-100">
 			{#each teams as team}
-				<tr>
-					<td class="px-4 py-3 font-semibold text-gray-800 whitespace-normal wrap-break-word">
+				<tr class="flex flex-col md:table-row p-4 md:p-0 border-b md:border-b-0">
+					<td class="flex justify-center md:table-cell px-4 py-3">
 						<img
 							src="https://www.123-stickers.com/7667/autocollant-sacha-et-pikachu-pokemon.jpg"
 							alt={team.name}
-							class="w-16 h-16 object-contain rounded-lg border-2 border-red-500"
+							class="w-20 h-20 md:w-16 md:h-16 object-contain rounded-lg border-2 border-red-500"
 						/>
 					</td>
-					<td class="px-4 py-3 font-semibold text-gray-800 whitespace-normal wrap-break-word">
+
+					<td
+						class="block md:table-cell px-4 py-2 md:py-3 font-bold md:font-semibold text-gray-800 text-center md:text-left"
+					>
+						<span class="md:hidden text-xs uppercase text-gray-400 block">Nom</span>
 						{#if editingId === team.id}
 							<input
 								type="text"
 								bind:value={editName}
-								class="w-full max-w-full px-2 py-1 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+								class="w-full px-2 py-1 border border-red-300 rounded-lg focus:ring-2 focus:ring-red-500"
 							/>
 						{:else}
-							<a href="teams/{team.id}" class="link">{team.name}</a>
+							<a href="teams/{team.id}" class="text-red-600 hover:underline text-lg md:text-base"
+								>{team.name}</a
+							>
 						{/if}
 					</td>
-					<td class="px-4 py-3 text-gray-600 whitespace-normal wrap-break-word">
+
+					<td class="block md:table-cell px-4 py-2 md:py-3 text-gray-600">
+						<span class="md:hidden text-xs uppercase text-gray-400 block font-semibold"
+							>Description</span
+						>
 						{#if editingId === team.id}
 							<textarea
 								bind:value={editDescription}
-								rows="4"
-								cols="40"
-								class="w-full max-w-full px-2 py-1 border border-red-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+								rows="3"
+								class="w-full px-2 py-1 border border-red-300 rounded-lg focus:ring-2 focus:ring-red-500"
 							></textarea>
 						{:else}
-							{team.description}
+							<p class="text-sm md:text-base line-clamp-3 md:line-clamp-none">
+								{team.description}
+							</p>
 						{/if}
 					</td>
-					<td class="px-4 py-3 text-right">
-						<div class="flex flex-wrap justify-center gap-2">
+
+					<td class="block md:table-cell px-4 py-4 md:py-3 text-center">
+						<div class="flex flex-wrap justify-center md:justify-center gap-3">
 							{#if isLoggedIn && currentUserId === team.profile_id}
 								{#if editingId === team.id}
 									<button
-										class="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 transition cursor-pointer"
+										class="flex items-center justify-center w-9 h-9 bg-green-600 text-white p-2 rounded-lg shadow hover:bg-green-700 transition"
 										onclick={() => handleConfirmEdit(team.id)}
+										title="Confirmer"
 									>
 										✅
 									</button>
 									<button
-										class="bg-gray-400 text-black px-2 py-1 rounded hover:bg-gray-500 transition cursor-pointer"
+										class="flex items-center justify-center w-9 h-9 bg-gray-400 text-white p-2 rounded-lg shadow hover:bg-gray-500 transition"
 										onclick={cancel}
+										title="Annuler"
 									>
 										✖️
 									</button>
-								{/if}
-								{#if editingId !== team.id && deletingId !== team.id}
+								{:else if deletingId === team.id}
+									<button
+										class="flex items-center justify-center w-9 h-9 bg-green-600 text-white p-2 rounded-lg shadow hover:bg-green-700 transition"
+										onclick={() => handleConfirmDelete(team.id)}
+									>
+										Confirmer suppression ✅
+									</button>
+									<button
+										class="w-9 h-9 bg-gray-400 text-white p-2 rounded-lg shadow hover:bg-gray-500 transition"
+										onclick={cancel}
+									>
+										Annuler ✖️
+									</button>
+								{:else}
 									<a
-										class="bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-700 transition cursor-pointer"
+										class="flex items-center justify-center w-9 h-9 bg-blue-500 text-white p-2 rounded-lg shadow hover:bg-blue-600 transition"
 										href="teams/{team.id}"
 									>
-										👁️</a
-									>
+										👁️
+									</a>
 									<button
 										onclick={() => startEdit(team)}
-										class="bg-red-100 text-red-600 px-2 py-1 rounded hover:bg-red-200 transition cursor-pointer"
+										class="flex items-center justify-center w-9 h-9 bg-amber-100 text-amber-600 p-2 rounded-lg border border-amber-200 hover:bg-amber-200 transition"
 									>
 										📝
 									</button>
-								{/if}
-								{#if deletingId === team.id}
-									<button
-										class="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 transition cursor-pointer"
-										onclick={() => handleConfirmDelete(team.id)}
-									>
-										✅
-									</button>
-									<button
-										class="bg-gray-400 text-black px-2 py-1 rounded hover:bg-gray-500 transition cursor-pointer"
-										onclick={cancel}
-									>
-										✖️
-									</button>
-								{/if}
-								{#if deletingId !== team.id && editingId !== team.id}
 									<button
 										onclick={() => startDelete(team.id)}
-										class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 transition cursor-pointer"
+										class="flex items-center justify-center w-9 h-9 bg-red-600 text-white p-2 rounded-lg shadow hover:bg-red-700 transition"
 									>
 										🗑️
 									</button>
 								{/if}
-								<!-- {#if deletingId !== team.id && editingId !== team.id}
-                  <DeleteButton
-                    id={team.id}
-                    onConfirm={confirmDelete}
-                    withConfirmation={true}
-                  />
-                {/if} -->
 							{:else}
 								<a
-									class="bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-700 transition cursor-pointer"
+									class="flex items-center justify-center w-9 h-9 bg-gray-500 text-white px-4 py-2 rounded-lg shadow hover:bg-gray-700 transition"
 									href="teams/{team.id}"
 								>
-									👁️</a
-								>
+									Voir l'équipe 👁️
+								</a>
 							{/if}
 						</div>
 					</td>
