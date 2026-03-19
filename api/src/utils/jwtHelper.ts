@@ -36,7 +36,7 @@ export function sendCookies({ cookieName, res, token, maxAge }: Cookie) {
 }
 
 export function clearCookies(res: Response) {
-	res.cookie('pokedex_access_token', {
+	res.clearCookie('pokedex_access_token', {
 		httpOnly: true,
 		secure: process.env.NODE_ENV === 'production',
 		sameSite: 'lax',
