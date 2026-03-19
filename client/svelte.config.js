@@ -1,13 +1,15 @@
 import adapter from '@sveltejs/adapter-node';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
+const isDev = process.env.NODE_ENV === 'development';
+
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	preprocess: vitePreprocess(),
 	kit: {
 		adapter: adapter(),
 		paths: {
-			base: process.env.NODE_ENV === 'production' ? '/pokedex' : '',
+			base: '/pokedex',
 			relative: false
 		},
 		alias: {

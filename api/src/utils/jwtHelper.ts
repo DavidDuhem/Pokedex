@@ -31,7 +31,7 @@ export function sendCookies({ cookieName, res, token, maxAge }: Cookie) {
 		secure: process.env.NODE_ENV === 'production',
 		sameSite: 'lax',
 		maxAge: maxAge,
-		path: '/pokedex'
+		path: '/'
 	});
 }
 
@@ -40,6 +40,6 @@ export function clearCookies(res: Response) {
 		httpOnly: true,
 		secure: process.env.NODE_ENV === 'production',
 		sameSite: 'lax',
-		path: '/pokedex'
+		path: '/'
 	});
 }

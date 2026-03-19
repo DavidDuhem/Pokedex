@@ -2,7 +2,7 @@ import { env as publicEnv } from '$env/dynamic/public';
 import { auth } from '$stores/auth-store.svelte';
 
 const isServer = typeof window === 'undefined';
-const baseUrl = isServer ? 'http://api:5000/api' : publicEnv.PUBLIC_API_URL;
+const baseUrl = isServer ? 'http://api:5005/api' : publicEnv.PUBLIC_API_URL;
 
 async function request<T>(
 	endpoint: string,
